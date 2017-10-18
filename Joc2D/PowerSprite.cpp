@@ -1,10 +1,18 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Sprite.h"
+#include "PowerSprite.h"
 
 
-PowerSprite::PowerSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
+PowerSprite *PowerSprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
+{
+	PowerSprite *quad = new PowerSprite(quadSize, sizeInSpritesheet, spritesheet, program);
+
+	return quad;
+}
+
+PowerSprite::PowerSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program):
+Sprite(quadSize, sizeInSpritesheet, spritesheet, program)
 {
 	float vertices[24] = {0.f, 0.f, 0.f, 0.f,
 		quadSize.x, 0.f, sizeInSpritesheet.x, 0.f,
@@ -26,10 +34,11 @@ PowerSprite::PowerSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSprit
 		position = glm::vec2(0.f);
 		center_position = glm::vec2(quadSize.x/2,quadSize.y/2);
 		rotation = 0;
+		anim_direction = 1;
 		pause = false;
 	}
 
-  void PowerSprite::update(int deltaTime)
+ void PowerSprite::update(int deltaTime)
 {
 	if(currentAnimation >= 0 and not pause)
 	{
@@ -48,9 +57,9 @@ void PowerSprite::render() const
 {
 	//glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(cntr.x,cntr.y,0));
+	modelview = glm::translate(modelview, glm::vec3(center_position.x,center_position.y,0));
 	modelview = glm::rotate(modelview, rotation, glm::vec3(0,0,1));
-	modelview = glm::translate(modelview, glm::vec3(-cntr.x,-cntr.y,0));
+	modelview = glm::translate(modelview, glm::vec3(-center_position.x,-center_position.y,0));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 	glEnable(GL_TEXTURE_2D);
@@ -75,7 +84,7 @@ void PowerSprite::changeAnimation(int animId)
 	if(animId < int(animations.size()))
 	{
 		if (previous_anim_keyframe[currentAnimation] != -1 ){
-			previous_anim_keyframe = currentKeyframe;
+			previous_anim_keyframe[currentAnimation] = currentKeyframe;
 		}
 		currentAnimation = animId;
 		if (previous_anim_keyframe[animId] != -1) {
