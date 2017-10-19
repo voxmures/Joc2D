@@ -14,12 +14,14 @@ PowerSprite *PowerSprite::createSprite(const glm::vec2 &quadSize, const glm::vec
 PowerSprite::PowerSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program):
 Sprite(quadSize, sizeInSpritesheet, spritesheet, program)
 {
-	float vertices[24] = {0.f, 0.f, 0.f, 0.f,
-		quadSize.x, 0.f, sizeInSpritesheet.x, 0.f,
-		quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y,
-		0.f, 0.f, 0.f, 0.f,
-		quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y,
-		0.f, quadSize.y, 0.f, sizeInSpritesheet.y};
+	float new_x = quadSize.x / 2;
+	float new_y = quadSize.y / 2;
+	float vertices[24] = {-new_x, -new_y, 0.f, 0.f,
+		new_x, -new_y, sizeInSpritesheet.x, 0.f,
+		new_x, new_y, sizeInSpritesheet.x, sizeInSpritesheet.y,
+		-new_x, -new_y, 0.f, 0.f,
+		new_x, new_y, sizeInSpritesheet.x, sizeInSpritesheet.y,
+		-new_x, new_y, 0.f, sizeInSpritesheet.y};
 
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
@@ -32,7 +34,7 @@ Sprite(quadSize, sizeInSpritesheet, spritesheet, program)
 		shaderProgram = program;
 		currentAnimation = -1;
 		position = glm::vec2(0.f);
-		center_position = glm::vec2(quadSize.x/2,quadSize.y/2);
+		//center_position = glm::vec2(quadSize.x/2,quadSize.y/2);
 		rotation = 0;
 		anim_direction = 1;
 		pause = false;
@@ -57,9 +59,9 @@ void PowerSprite::render() const
 {
 	//glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
-	modelview = glm::translate(modelview, glm::vec3(center_position.x,center_position.y,0));
+	//modelview = glm::translate(modelview, glm::vec3(center_position.x,center_position.y,0));
 	modelview = glm::rotate(modelview, rotation, glm::vec3(0,0,1));
-	modelview = glm::translate(modelview, glm::vec3(-center_position.x,-center_position.y,0));
+	//modelview = glm::translate(modelview, glm::vec3(-center_position.x,-center_position.y,0));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 	glEnable(GL_TEXTURE_2D);

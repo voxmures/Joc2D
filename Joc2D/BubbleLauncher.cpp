@@ -17,7 +17,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	arrow_sprite->setAnimationSpeed(0, 8);
 	arrow_sprite->addKeyframe(0, glm::vec2(0.0f,0.f));
 	arrow_sprite->changeAnimation(0);
-	arrow_sprite->setPosition(glm::vec2(400,300));
+	arrow_sprite->setPosition(glm::vec2(208,300));
 	arrowAngle = 90;
 	arrow_sprite->setRotation(arrowAngle);
 
@@ -38,7 +38,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 		machine_sprite->addKeyframe(0, glm::vec2(11/12.f,0.5f));
 
 	machine_sprite->changeAnimation(0);
-	//machine_sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
+	machine_sprite->setPosition(glm::vec2(208,300));
 
 
 

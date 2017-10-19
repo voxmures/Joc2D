@@ -21,7 +21,7 @@ class PowerSprite : public Sprite
 
     private:
       float rotation;
-      glm::vec2 center_position;
+      //glm::vec2 center_position;
       int anim_direction;
       vector<int> previous_anim_keyframe;
       bool pause;

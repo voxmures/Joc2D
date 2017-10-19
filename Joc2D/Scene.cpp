@@ -37,6 +37,7 @@ void Scene::init()
 	bubblelauncher->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	bg_texture.loadFromFile("images/background.jpg", TEXTURE_PIXEL_FORMAT_RGBA);
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
+	background->setPosition(glm::ivec2(320,240));
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 }
