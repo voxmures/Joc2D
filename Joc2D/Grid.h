@@ -1,8 +1,11 @@
 #ifndef _GRID_INCLUDE
 #define _GRID_INCLUDE
 
-#include<utility>	// std::pair
-#include<vector>	// std::vector
+#include<utility>			// std::pair
+#include<vector>			// std::vector
+#include<queue>				// std::queue
+#include<unordered_map>		// std::unordered_map
+
 #include<iostream>
 
 const int N = 12;
@@ -85,7 +88,7 @@ public:
 	}
 
 	Grid(std::vector<int> &map) {
-		int k = 0;
+		unsigned int k = 0;
 		for (int i = 0; i < N; i++) {
 			std::vector<Hex *> row;
 			int padding = 5 - (i / 2);
@@ -112,17 +115,51 @@ public:
 				}
 			}
 		}
+
+		std::cout << std::endl;
+
+		Hex* testHex = new Hex(5, -1, 1);
+		checkThrow(testHex);
 	}
 
 private:
 	std::vector< std::vector<Hex *> > hexagons;
 
 	Hex* getNeighbour(Hex* hex, int direction) {
-		std::pair<int, int> neighbourCoord = hex->getNeighbourCoord(direction);
-		return hexagons[neighbourCoord.first][neighbourCoord.second + neighbourCoord.first / 2];
+		std::pair<int, int> nCoord = hex->getNeighbourCoord(direction);
+		int i = nCoord.first,
+			j = (N / 2 - 1) + nCoord.second;
+		if (i < 0 || i > N - 1 || j < 0 || j > N)
+			return NULL;
+
+		return hexagons[i][j];
 	}
 
+	void checkThrow(Hex* hex) {
+		std::queue<Hex*> frontier;
+		std::unordered_map<Hex*, Hex*> came_from;
+		came_from[hex] = NULL;
 
+		frontier.push(hex);
+		while (!frontier.empty()) {
+			Hex* current = frontier.front(); frontier.pop();
+			int value = current->getValue();
+
+			std::cout << "CURRENT" << std::endl;
+			std::cout << "r: " << current->getCoord().first << ", q: " << current->getCoord().second << ", v: " << value << std::endl;
+
+			std::cout << "NEIGHBOURS" << std::endl;
+			for (int i = 0; i < 6; i++) {
+				Hex* neighbour = getNeighbour(current, i);
+
+				if (neighbour != NULL && came_from[current] != neighbour && neighbour->getValue() == value) {
+					frontier.push(neighbour);
+					came_from[neighbour] = current;
+					std::cout << "r: " << neighbour->getCoord().first << ", q: " << neighbour->getCoord().second << ", v: " << neighbour->getValue() << std::endl;
+				}
+			}
+		}
+	}
 
 };
 
