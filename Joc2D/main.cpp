@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_DEPRECATE // Allows freopen working
+
 #include <GL/glew.h>
 //#include <GL/glut.h>
 #include <GL/freeglut.h>
@@ -84,6 +86,12 @@ static void idleCallback()
 
 int main(int argc, char **argv)
 {
+	// Open a console for standard output
+	AllocConsole();
+	freopen("CONIN$", "r", stdin);
+	freopen("CONOUT$", "w", stdout);
+	freopen("CONOUT$", "w", stderr);
+
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
