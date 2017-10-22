@@ -1,4 +1,6 @@
-#define _CRT_SECURE_NO_DEPRECATE // Allows freopen working
+#ifdef _WIN32
+#define _CRT_SECURE_NO_DEPRECATE // Allows freopen working in Windows
+#endif
 
 #include <GL/glew.h>
 //#include <GL/glut.h>

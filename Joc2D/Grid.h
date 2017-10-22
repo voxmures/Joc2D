@@ -10,7 +10,8 @@ const int N = 12;
 class Hex
 {
 public:
-	Hex(int r, int q) : m_r(r), m_q(q), value(-1) {}
+	Hex(int r, int q) : m_r(r), m_q(q), m_value(-1) {}
+	Hex(int r, int q, int v) : m_r(r), m_q(q), m_value(v) {}
 
 	std::pair<int, int> getCoord() {
 		return std::pair<int, int>(m_r, m_q);
@@ -45,10 +46,23 @@ public:
 		return result;
 	}
 
+	int getValue() {
+		return m_value;
+	}
+
 private:
 	const int m_r, m_q;
-	int value;
-		
+
+	/*	0: Red / Invader
+		1: Yellow / Pulpul
+		2: Green / Drunk
+		3: Blue / Zen-Chan
+		4: Purple / Monsta
+		5: Orange / Banebou
+		6: Black / Hidegonsu
+		7: White / Mighta
+	*/
+	int m_value;		
 };
 
 class Grid
@@ -58,16 +72,30 @@ public:
 		for (int i = 0; i < N; i++) {
 			std::vector<Hex *> row;
 			int padding = 5 - (i / 2);
-			//cout << "i: " << i << endl << "padding: " << padding << endl << "i / 2: " << i / 2 << endl;
 			for (int j = 0; j <= N; j++) {
-				//cout << "j: " << j << " padding + 8 - (i % 2): " << padding + 8 - (i % 2);
 				if (j < padding || j >= (padding + 8 - (i % 2))) {
-					//cout << endl;
 					row.push_back(NULL);
 				} 
 				else {
-					//cout << " j - padding: " << j - padding << endl;
 					row.push_back(new Hex(i, j - padding - (i / 2)));
+				}
+			}
+			hexagons.push_back(row);
+		}
+	}
+
+	Grid(std::vector<int> &map) {
+		int k = 0;
+		for (int i = 0; i < N; i++) {
+			std::vector<Hex *> row;
+			int padding = 5 - (i / 2);
+			for (int j = 0; j <= N; j++) {
+				if (j < padding || j >= (padding + 8 - (i % 2))) {
+					row.push_back(NULL);
+				}
+				else {
+					int value = (k >= map.size() ? -1 : map[k++]);
+					row.push_back(new Hex(i, j - padding - (i / 2), value));
 				}
 			}
 			hexagons.push_back(row);
@@ -79,7 +107,8 @@ public:
 			for (int j = 0; j <= N; j++) {
 				if (hexagons[i][j] != NULL) {
 					std::pair<int, int> coord = hexagons[i][j]->getCoord();
-					cout << "r: " << coord.first << ", q: " << coord.second << endl;
+					int value = hexagons[i][j]->getValue();
+					std::cout << "r: " << coord.first << ", q: " << coord.second << ", v: " << value << std::endl;
 				}
 			}
 		}
@@ -92,6 +121,8 @@ private:
 		std::pair<int, int> neighbourCoord = hex->getNeighbourCoord(direction);
 		return hexagons[neighbourCoord.first][neighbourCoord.second + neighbourCoord.first / 2];
 	}
+
+
 
 };
 

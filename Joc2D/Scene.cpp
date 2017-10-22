@@ -11,6 +11,16 @@
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 25
 
+std::vector<int> gmap = {
+	4,  3,  4,  5,  3,  0,  6,  5,
+	1,  6,  2,  3,  1,  1,  4,
+	1,  4,  4,  2,  1,  3,  4,  4,
+	1,  0,  0,  5,  2,  0,  0,
+	3,  1,  0,  0,  1,  0,  4,  6,
+	-1, -1, -1, -1, -1,  6,  4,
+	-1, -1, -1, -1, -1, -1,  0
+};
+
 
 Scene::Scene()
 {
@@ -35,7 +45,7 @@ void Scene::init()
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
-	grid = new Grid();
+	grid = new Grid(gmap);
 	grid->testGrid();
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
