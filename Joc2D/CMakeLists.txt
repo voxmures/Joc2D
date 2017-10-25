@@ -26,6 +26,6 @@ link_directories(${GLUT_LIBRARY_DIRS})
 link_directories(${GLEW_LIBRARY_DIRS})
 link_directories(${SOIL_LIBRARY_DIRS})
 
-add_executable(${appName} Player.h Player.cpp BubbleLauncher.h BubbleLauncher.cpp AnimKeyframes.h Sprite.h Sprite.cpp PowerSprite.h PowerSprite.cpp TileMap.h TileMap.cpp Texture.h Texture.cpp Scene.h Scene.cpp Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
+add_executable(${appName} Player.h Player.cpp Bubble.h Bubble.cpp BubbleLauncher.h BubbleLauncher.cpp AnimKeyframes.h Sprite.h Sprite.cpp PowerSprite.h PowerSprite.cpp TileMap.h TileMap.cpp Texture.h Texture.cpp Scene.h Scene.cpp Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${GLEW_LIBRARIES} ${SOIL_LIBRARIES} ${FREETYPE_LIBRARIES}) # ${GLM_LIBRARIES}

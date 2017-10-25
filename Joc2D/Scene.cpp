@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include "Bubble.h"
 
 
 #define SCREEN_X 32
@@ -33,6 +34,7 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
+	Bubble::load_textures();
 	bubblelauncher = new BubbleLauncher();
 	bubblelauncher->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	bg_texture.loadFromFile("images/background.jpg", TEXTURE_PIXEL_FORMAT_RGBA);

@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 #include "BubbleLauncher.h"
 #include "Game.h"
+#include "Bubble.h"
 
 
 void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
@@ -40,6 +41,9 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	machine_sprite->changeAnimation(0);
 	machine_sprite->setPosition(glm::vec2(208,300));
 
+	primary_bubble->init(Bubble::Color::Blue, &shaderProgram);
+
+
 
 
 
@@ -70,4 +74,5 @@ void BubbleLauncher::render()
 	//sprite->render();
 	machine_sprite->render();
 	arrow_sprite->render();
+	primary_bubble->render();
 }

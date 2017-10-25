@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "PowerSprite.h"
 #include "TileMap.h"
+#include "Bubble.h"
 
 
 // Player is basically a Sprite that represents the player. As such it has
@@ -28,6 +29,7 @@ private:
     PowerSprite *arrow_sprite;
 	PowerSprite *machine_sprite;
 	PowerSprite *wheel_sprite;
+	Bubble *primary_bubble;
 	Sprite *sprite;
 	TileMap *map;
 
