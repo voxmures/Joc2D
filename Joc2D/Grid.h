@@ -9,6 +9,7 @@
 #include<iostream>
 
 const int N = 12;
+const int MAX_BALLS_PER_ROW = 8;
 
 class Hex
 {
@@ -76,7 +77,7 @@ public:
 			std::vector<Hex *> row;
 			int padding = 5 - (i / 2);
 			for (int j = 0; j <= N; j++) {
-				if (j < padding || j >= (padding + 8 - (i % 2))) {
+				if (j < padding || j >= (padding + MAX_BALLS_PER_ROW - (i % 2))) {
 					row.push_back(NULL);
 				} 
 				else {
@@ -91,9 +92,9 @@ public:
 		unsigned int k = 0;
 		for (int i = 0; i < N; i++) {
 			std::vector<Hex *> row;
-			int padding = 5 - (i / 2);
+			int padding = (N / 2 - 1) - (i / 2);
 			for (int j = 0; j <= N; j++) {
-				if (j < padding || j >= (padding + 8 - (i % 2))) {
+				if (j < padding || j >= (padding + MAX_BALLS_PER_ROW - (i % 2))) {
 					row.push_back(NULL);
 				}
 				else {
@@ -118,8 +119,11 @@ public:
 
 		std::cout << std::endl;
 
-		Hex* testHex = new Hex(5, -1, 1);
-		checkThrow(testHex);
+		Hex* testHex = new Hex(5, -1, 0);
+		std::vector<Hex*> result = BFS(testHex);
+		for (unsigned int i = 0; i < result.size(); i++) {
+			std::cout << result[i]->getCoord().first << ", " << result[i]->getCoord().second << std::endl;
+		}
 	}
 
 private:
@@ -135,30 +139,33 @@ private:
 		return hexagons[i][j];
 	}
 
-	void checkThrow(Hex* hex) {
+	std::vector<Hex*> BFS(Hex* start) {
 		std::queue<Hex*> frontier;
-		std::unordered_map<Hex*, Hex*> came_from;
-		came_from[hex] = NULL;
+		std::vector<Hex*> visited;
+		visited.push_back(start);
 
-		frontier.push(hex);
+		frontier.push(start);
 		while (!frontier.empty()) {
 			Hex* current = frontier.front(); frontier.pop();
 			int value = current->getValue();
 
-			std::cout << "CURRENT" << std::endl;
-			std::cout << "r: " << current->getCoord().first << ", q: " << current->getCoord().second << ", v: " << value << std::endl;
+			//std::cout << "CURRENT" << std::endl;
+			//std::cout << "r: " << current->getCoord().first << ", q: " << current->getCoord().second << ", v: " << value << std::endl;
 
-			std::cout << "NEIGHBOURS" << std::endl;
+			//std::cout << "NEIGHBOURS" << std::endl;
 			for (int i = 0; i < 6; i++) {
 				Hex* neighbour = getNeighbour(current, i);
+				bool v = std::find(visited.begin(), visited.end(), neighbour) != visited.end();
 
-				if (neighbour != NULL && came_from[current] != neighbour && neighbour->getValue() == value) {
+				if (neighbour != NULL && !v && neighbour->getValue() == value) {
 					frontier.push(neighbour);
-					came_from[neighbour] = current;
-					std::cout << "r: " << neighbour->getCoord().first << ", q: " << neighbour->getCoord().second << ", v: " << neighbour->getValue() << std::endl;
+					visited.push_back(neighbour);
+					//std::cout << "r: " << neighbour->getCoord().first << ", q: " << neighbour->getCoord().second << ", v: " << neighbour->getValue() << std::endl;
 				}
 			}
 		}
+
+		return visited;
 	}
 
 };
