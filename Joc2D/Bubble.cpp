@@ -3,22 +3,23 @@
 
 Texture Bubble::textures[8] = {};
 
-void Bubble::init(Color color, ShaderProgram &shaderProgram){
+void Bubble::init(Bubble::Color color, ShaderProgram &shaderProgram){
     this->color = color;
-    // sprite->createSprite(glm::vec2(32,32), glm::vec2(1/6.f,1/4.f), &Bubble::textures[color], &shaderProgram);
-    // sprite->setNumberAnimations(4);
-    // sprite->setAnimationSpeed(Active, 8);
-    // sprite->addKeyframe(Active, glm::vec2(0.f,0.f));
-    // sprite->addKeyframe(Active, glm::vec2(1/6.f,0.f));
-    // sprite->addKeyframe(Active, glm::vec2(2/6.f,0.f));
-    // sprite->changeAnimation(Active);
+    sprite = Sprite::createSprite(glm::vec2(32,32), glm::vec2(1/6.f,1/4.f), &Bubble::textures[color], &shaderProgram);
+    sprite->setNumberAnimations(4);
+    sprite->setAnimationSpeed(Active, 8);
+    sprite->addKeyframe(Active, glm::vec2(0.f,0.f));
+    sprite->addKeyframe(Active, glm::vec2(1/6.f,0.f));
+    sprite->addKeyframe(Active, glm::vec2(2/6.f,0.f));
+    sprite->changeAnimation(Active);
+    sprite->setPosition(glm::vec2(100,100));
 }
 
 void Bubble::update(int deltaTime){
 
 }
 void Bubble::render(){
-    //sprite->render();
+    sprite->render();
 }
 
 void Bubble::load_textures(){

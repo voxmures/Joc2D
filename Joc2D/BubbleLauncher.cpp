@@ -41,7 +41,10 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	machine_sprite->changeAnimation(0);
 	machine_sprite->setPosition(glm::vec2(208,300));
 
-	primary_bubble->init(Bubble::Color::Blue, &shaderProgram);
+	Bubble::Color c = Bubble::Color::Dark;
+	primary_bubble = new Bubble;
+	primary_bubble->init(Bubble::Color::White, shaderProgram);
+	//primary_bubble->init(, shaderProgram);
 
 
 

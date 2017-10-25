@@ -19,6 +19,7 @@ class Bubble {
         enum Color { Blue, Dark, Green, Orange, Purple, Red, White, Yellow, NoColor };
         enum BubbleState {Active, Shading, Exploding, Dead};
         void init(Color color, ShaderProgram &shaderProgram);
+        //void init(int color, ShaderProgram &shaderProgram);
 
         static void load_textures();
 
