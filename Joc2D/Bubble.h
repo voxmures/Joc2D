@@ -24,7 +24,11 @@ class Bubble {
         static void load_textures();
 
         void update(int deltaTime);
-	    void render();
+        void render();
+        
+        void setPosition(const glm::vec2 &pos);
+
+        void launch(const glm::vec2 &dir);
 
 
 
@@ -32,7 +36,9 @@ class Bubble {
     private:
 
         Color color;
-        pair <int,int> position;
+        //pair <int,int> position;
+        glm::vec2 position;
+        glm::vec2 direction;
         Sprite *sprite;
         
         

@@ -18,7 +18,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	arrow_sprite->setAnimationSpeed(0, 8);
 	arrow_sprite->addKeyframe(0, glm::vec2(0.0f,0.f));
 	arrow_sprite->changeAnimation(0);
-	arrow_sprite->setPosition(glm::vec2(208,300));
+	arrow_sprite->setPosition(glm::vec2(ARROW_X,ARROW_Y));
 	arrowAngle = 90;
 	arrow_sprite->setRotation(arrowAngle);
 
@@ -44,7 +44,8 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	Bubble::Color c = Bubble::Color::Dark;
 	primary_bubble = new Bubble;
 	primary_bubble->init(Bubble::Color::White, shaderProgram);
-	//primary_bubble->init(, shaderProgram);
+	//primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y-9));	
+	primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y));
 
 
 
@@ -58,6 +59,7 @@ void BubbleLauncher::update(int deltaTime)
 	//sprite->update(deltaTime);
 	arrow_sprite->update(deltaTime);
 	machine_sprite->update(deltaTime);
+	primary_bubble->update(deltaTime);
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
 		arrowAngle-=2;
@@ -66,16 +68,25 @@ void BubbleLauncher::update(int deltaTime)
 	{
 		arrowAngle+=2;
 	}
+	else if(Game::instance().getSpecialKey(GLUT_KEY_UP))
+	{
+		float bubX = cos(arrowAngle*M_PI/180)*-4;
+		float bubY = sin(arrowAngle*M_PI/180)*-4;
+		primary_bubble->launch(glm::vec2(bubX,bubY));
+	}
 
 	//sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	//arrow_sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	arrow_sprite->setRotation(arrowAngle);
+	//float bubX = ARROW_X + cos(arrowAngle*M_PI/180)*-9;
+	//float bubY = ARROW_Y + sin(arrowAngle*M_PI/180)*-9;
+	//primary_bubble->setPosition(glm::vec2(bubX,bubY));
 }
 
 void BubbleLauncher::render()
 {
 	//sprite->render();
-	machine_sprite->render();
+	//machine_sprite->render();
 	arrow_sprite->render();
 	primary_bubble->render();
 }
