@@ -5,7 +5,7 @@ Texture Bubble::textures[8] = {};
 
 void Bubble::init(Bubble::Color color, ShaderProgram &shaderProgram){
     this->color = color;
-    sprite = Sprite::createSprite(glm::vec2(32,32), glm::vec2(1/6.f,1/4.f), &Bubble::textures[color], &shaderProgram);
+    sprite = Sprite::createSprite(glm::vec2(64,64), glm::vec2(1/6.f,1/4.f), &Bubble::textures[color], &shaderProgram);
     sprite->setNumberAnimations(4);
     sprite->setAnimationSpeed(Active, 4);
     sprite->addKeyframe(Active, glm::vec2(0.f,0.f));

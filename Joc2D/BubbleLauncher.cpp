@@ -13,7 +13,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 
 	machine_spritesheet.loadFromFile("images/machine.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
-	arrow_sprite = PowerSprite::createSprite(glm::ivec2(64,32) , glm::vec2(1/12.f,0.5), &machine_spritesheet, &shaderProgram);
+	arrow_sprite = PowerSprite::createSprite(glm::ivec2(128,64) , glm::vec2(1/12.f,0.5), &machine_spritesheet, &shaderProgram);
 	arrow_sprite->setNumberAnimations(1);
 	arrow_sprite->setAnimationSpeed(0, 8);
 	arrow_sprite->addKeyframe(0, glm::vec2(0.0f,0.f));
