@@ -26,8 +26,8 @@ private:
 	void initShaders();
 
 private:
-	TileMap *map;
-	Player *player;
+	//TileMap *map;
+	//Player *player;
 	Grid *grid;
 	ShaderProgram texProgram;
 	float currentTime;
