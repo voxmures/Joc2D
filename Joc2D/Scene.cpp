@@ -5,41 +5,52 @@
 #include "Game.h"
 #include "Bubble.h"
 
-
 #define SCREEN_X 32
 #define SCREEN_Y 16
 
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 25
 
-#define GRID_MAX_ROWS 10
-#define GRID_MAX_COLS 8
+std::vector<int> gmap = {
+	4,  3,  4,  5,  3,  0,  6,  5,
+	1,  6,  2,  3,  1,  1,  4,
+	1,  4,  4,  2,  1,  3,  4,  4,
+	1,  0,  0,  5,  2,  0,  0,
+	3,  1,  0,  0,  1,  0,  4,  6,
+	-1, -1, -1, -1, -1,  6,  4,
+	-1, -1, -1, -1, -1, -1,  0
+};
 
 
 Scene::Scene()
 {
-	map = NULL;
-	player = NULL;
+	//map = NULL;
+	//player = NULL;
 }
 
 Scene::~Scene()
 {
-	if(map != NULL)
-		delete map;
-	if(player != NULL)
-		delete player;
+	//if(map != NULL)
+	//	delete map;
+	//if(player != NULL)
+	//	delete player;
 }
 
 
 void Scene::init()
 {
 	initShaders();
+
 	Bubble::load_textures();
 	bubblelauncher = new BubbleLauncher();
 	bubblelauncher->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	bg_texture.loadFromFile("images/background-scaled.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
+
+	grid = new Grid(gmap);
+	grid->testGrid();
+
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 }
@@ -59,6 +70,7 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+
 	background->render();
 	bubblelauncher->render();
 }

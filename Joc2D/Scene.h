@@ -1,19 +1,16 @@
 #ifndef _SCENE_INCLUDE
 #define _SCENE_INCLUDE
 
-
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
 #include "BubbleLauncher.h"
 #include "Sprite.h"
-
+#include "Grid.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
-
-
 class Scene
 {
 
@@ -29,11 +26,12 @@ private:
 	void initShaders();
 
 private:
-	TileMap *map;
-	Player *player;
 	Sprite *background;
 	Texture bg_texture;
 	BubbleLauncher *bubblelauncher;
+
+	Grid *grid;
+
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
