@@ -21,11 +21,11 @@ void Bubble::update(int deltaTime){
     glm::vec2 newPos = position + direction;
     //194 447 sin contar bola
     //202 439 contando bola
-    if (newPos.x <= 202 or newPos.x >= 439){
+    if (newPos.x <= 202 || newPos.x >= 439) {
         direction.x *= -1;
         position += direction;
     }
-    else{
+    else {
         position = newPos;
     }
 

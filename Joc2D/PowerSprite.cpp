@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -42,7 +45,7 @@ Sprite(quadSize, sizeInSpritesheet, spritesheet, program)
 
  void PowerSprite::update(int deltaTime)
 {
-	if(currentAnimation >= 0 and not pause)
+	if(currentAnimation >= 0 && !pause)
 	{
 		timeAnimation += deltaTime;
 		while(timeAnimation > animations[currentAnimation].millisecsPerKeyframe)
@@ -85,7 +88,7 @@ void PowerSprite::changeAnimation(int animId)
 {
 	if(animId < int(animations.size()))
 	{
-		if (previous_anim_keyframe[currentAnimation] != -1 ){
+		if (currentAnimation > -1 && previous_anim_keyframe[currentAnimation] != -1 ){
 			previous_anim_keyframe[currentAnimation] = currentKeyframe;
 		}
 		currentAnimation = animId;
@@ -106,7 +109,7 @@ void PowerSprite::setFramePersistanceAnimation(int animId){
 
 void PowerSprite::setRotation(const float &angle)
 {
-	rotation = M_PI*angle/180;
+	rotation = M_PI * angle / 180;
 }
 
 void PowerSprite::pauseAnimation() {
