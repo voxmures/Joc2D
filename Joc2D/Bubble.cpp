@@ -17,7 +17,6 @@ void Bubble::init(Bubble::Color color, ShaderProgram &shaderProgram){
 void Bubble::update(int deltaTime){
     //sprite->update(deltaTime);
 
-    
     glm::vec2 newPos = position + direction;
     //194 447 sin contar bola
     //202 439 contando bola
@@ -32,11 +31,20 @@ void Bubble::update(int deltaTime){
     sprite->setPosition(position);
 
 }
+
 void Bubble::render(){
     sprite->render();
 }
 
-void Bubble::load_textures(){
+int Bubble::getValue() {
+	return color;
+}
+
+float Bubble::getRadius() {
+	return sprite->getSize() / 2;
+}
+
+void Bubble::load_textures() {
     Bubble::textures[Blue].loadFromFile("images/bubbles/bubble_blue_spritesheet.png", TEXTURE_PIXEL_FORMAT_RGBA);
     Bubble::textures[Dark].loadFromFile("images/bubbles/bubble_dark_spritesheet.png", TEXTURE_PIXEL_FORMAT_RGBA);
     Bubble::textures[Green].loadFromFile("images/bubbles/bubble_green_spritesheet.png", TEXTURE_PIXEL_FORMAT_RGBA);

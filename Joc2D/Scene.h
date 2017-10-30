@@ -2,10 +2,12 @@
 #define _SCENE_INCLUDE
 
 #include <glm/glm.hpp>
+#include <vector>
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
 #include "BubbleLauncher.h"
+#include "Bubble.h"
 #include "Sprite.h"
 #include "Grid.h"
 
@@ -24,11 +26,14 @@ public:
 
 private:
 	void initShaders();
+	void loadBubbleMap();
 
 private:
 	Sprite *background;
 	Texture bg_texture;
 	BubbleLauncher *bubblelauncher;
+
+	std::vector<Bubble*> m_bubbles;
 
 	Grid *grid;
 

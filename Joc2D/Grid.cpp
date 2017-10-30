@@ -18,7 +18,7 @@ Grid::Grid() {
 	}
 }
 
-Grid::Grid(std::vector<int> &map) {
+Grid::Grid(std::vector<Bubble*> &map) {
 	unsigned int k = 0;
 	for (int i = 0; i < N; i++) {
 		std::vector<Hex *> row;
@@ -28,8 +28,8 @@ Grid::Grid(std::vector<int> &map) {
 				row.push_back(NULL);
 			}
 			else {
-				int value = (k >= map.size() ? -1 : map[k++]);
-				row.push_back(new Hex(i, j - padding - (i / 2), value));
+				Bubble* b = (k >= map.size() ? NULL : map[k++]);
+				row.push_back(new Hex(i, j - padding - (i / 2), b));
 			}
 		}
 		hexagons.push_back(row);

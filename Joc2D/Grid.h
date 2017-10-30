@@ -15,7 +15,7 @@ class Grid
 {
 public:
 	Grid();
-	Grid(std::vector<int> &map);
+	Grid(std::vector<Bubble*> &map);
 
 	void testGrid();
 

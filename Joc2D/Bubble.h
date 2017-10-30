@@ -11,7 +11,6 @@ enum Color { Blue, Dark, Green, Orange, Purple, Red, White, Yellow, NoColor };
 
 class Bubble {
 
-
     static Texture textures[8];
 
     public:
@@ -30,7 +29,8 @@ class Bubble {
 
         void launch(const glm::vec2 &dir);
 
-
+		int getValue();
+		float getRadius();
 
 
     private:

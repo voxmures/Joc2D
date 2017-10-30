@@ -2,12 +2,23 @@
 #define _HEX_INCLUDE
 
 #include<utility> // std::pair
+#include "Bubble.h"
+
+#define SCREEN_WIDTH 640
 
 class Hex
 {
 public:
-	Hex(int r, int q) : m_r(r), m_q(q), m_value(-1) {}
-	Hex(int r, int q, int v) : m_r(r), m_q(q), m_value(v) {}
+	Hex(int r, int q) : m_r(r), m_q(q), m_bubble(NULL) {}
+	Hex(int r, int q, Bubble* b) : m_r(r), m_q(q), m_bubble(b) {
+		if (b != NULL) {
+			float radius = b->getRadius();
+			float marginLeft = (SCREEN_WIDTH - (8 * 2 * radius)) / 2;
+			float x = marginLeft + (q + r / 2) * (radius * 2),
+				y = 20.f + r * radius * 2;
+			b->setPosition(glm::vec2(x, y));
+		}
+	}
 
 	std::pair<int, int> getCoord() {
 		return std::pair<int, int>(m_r, m_q);
@@ -43,22 +54,16 @@ public:
 	}
 
 	int getValue() {
-		return m_value;
+		if (m_bubble != NULL) {
+			return m_bubble->getValue();
+		}
+		return -1;
 	}
 
 private:
 	const int m_r, m_q;
 
-	/*	0: Red / Invader
-	1: Yellow / Pulpul
-	2: Green / Drunk
-	3: Blue / Zen-Chan
-	4: Purple / Monsta
-	5: Orange / Banebou
-	6: Black / Hidegonsu
-	7: White / Mighta
-	*/
-	int m_value;
+	Bubble* m_bubble;
 };
 
 #endif // _HEX_INCLUDE

@@ -21,7 +21,6 @@ std::vector<int> gmap = {
 	-1, -1, -1, -1, -1, -1,  0
 };
 
-
 Scene::Scene()
 {
 	//map = NULL;
@@ -48,7 +47,9 @@ void Scene::init()
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
 
-	grid = new Grid(gmap);
+	loadBubbleMap();
+
+	grid = new Grid(m_bubbles);
 	grid->testGrid();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -73,6 +74,39 @@ void Scene::render()
 
 	background->render();
 	bubblelauncher->render();
+	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
+		m_bubbles[i]->render();
+	}
+}
+
+void Scene::loadBubbleMap() 
+{
+	for (int i = 0; i < gmap.size(); i++) {
+		if (gmap[i] > -1) {
+			Bubble* b = new Bubble();
+			Bubble::Color c;
+			switch (gmap[i]) {
+				case 0:
+					c = Bubble::Color::Blue; break;
+				case 1:
+					c = Bubble::Color::Dark; break;
+				case 2:
+					c = Bubble::Color::Green; break;
+				case 3:
+					c = Bubble::Color::Orange; break;
+				case 4:
+					c = Bubble::Color::Purple; break;
+				case 5:
+					c = Bubble::Color::Red; break;
+				case 6:
+					c = Bubble::Color::White; break;
+				case 7:
+					c = Bubble::Color::Yellow; break;
+			}
+			b->init(c, texProgram);
+			m_bubbles.push_back(b);
+		}
+	}
 }
 
 void Scene::initShaders()

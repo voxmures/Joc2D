@@ -34,6 +34,8 @@ public:
 
 	void setPosition(const glm::vec2 &pos);
 
+	float getSize();
+
 protected:
 	Texture *texture;
 	ShaderProgram *shaderProgram;
@@ -45,6 +47,8 @@ protected:
 	float timeAnimation;
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;
+
+	float size;
 
 };
 
