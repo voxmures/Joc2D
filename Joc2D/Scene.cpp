@@ -47,9 +47,9 @@ void Scene::init()
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
 
-	loadBubbleMap();
+	std::vector<Bubble*> bubbles = loadBubbleMap();
 
-	grid = new Grid(m_bubbles);
+	grid = new Grid(bubbles);
 	grid->testGrid();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -79,8 +79,9 @@ void Scene::render()
 	}
 }
 
-void Scene::loadBubbleMap() 
+std::vector<Bubble*> Scene::loadBubbleMap() 
 {
+	std::vector<Bubble*> result;
 	for (int i = 0; i < gmap.size(); i++) {
 		if (gmap[i] > -1) {
 			Bubble* b = new Bubble();
@@ -105,8 +106,11 @@ void Scene::loadBubbleMap()
 			}
 			b->init(c, texProgram);
 			m_bubbles.push_back(b);
+			result.push_back(b);
 		}
+		else result.push_back(NULL);
 	}
+	return result;
 }
 
 void Scene::initShaders()

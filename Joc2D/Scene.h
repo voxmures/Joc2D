@@ -26,7 +26,7 @@ public:
 
 private:
 	void initShaders();
-	void loadBubbleMap();
+	std::vector<Bubble*> loadBubbleMap();
 
 private:
 	Sprite *background;
