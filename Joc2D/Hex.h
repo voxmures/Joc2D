@@ -13,9 +13,11 @@ public:
 	Hex(int r, int q, Bubble* b) : m_r(r), m_q(q), m_bubble(b) {
 		if (b != NULL) {
 			float radius = b->getRadius();
-			float marginLeft = (SCREEN_WIDTH - (8 * 2 * radius)) / 2;
-			float x = marginLeft + (q + r / 2) * (radius * 2),
-				y = 20.f + r * radius * 2;
+			float marginLeft = /*SCREEN_WIDTH - (8 * radius) / 2*/ 208.f;
+			if (r % 2 != 0)
+				marginLeft += radius / 2;
+			float x = marginLeft + (q + r / 2) * radius,
+				y = 42.f + r * radius;
 			b->setPosition(glm::vec2(x, y));
 		}
 	}
