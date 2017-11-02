@@ -28,7 +28,8 @@ private:
 	void initShaders();
 	std::vector<Bubble*> loadBubbleMap();
 
-private:
+	static void s_bubbleLaunched(Bubble* bubble);
+
 	Sprite *background;
 	Texture bg_texture;
 	BubbleLauncher *bubblelauncher;

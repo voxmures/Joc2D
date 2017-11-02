@@ -17,6 +17,8 @@ public:
 	Grid();
 	Grid(std::vector<Bubble*> &map);
 
+	void checkLaunch(glm::vec2& start, glm::vec2& dir);
+
 	void testGrid();
 
 private:
