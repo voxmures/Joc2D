@@ -5,6 +5,7 @@
 #include<vector>			// std::vector
 #include<queue>				// std::queue
 #include<unordered_map>		// std::unordered_map
+#include<algorithm>			// std:find
 
 #include "Hex.h"
 
