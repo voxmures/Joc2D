@@ -83,7 +83,7 @@ void Scene::render()
 std::vector<Bubble*> Scene::loadBubbleMap() 
 {
 	std::vector<Bubble*> result;
-	for (int i = 0; i < gmap.size(); i++) {
+	for (unsigned int i = 0; i < gmap.size(); i++) {
 		if (gmap[i] > -1) {
 			Bubble* b = new Bubble();
 			Bubble::Color c;
@@ -144,7 +144,11 @@ void Scene::initShaders()
 	fShader.free();
 }
 
-void Scene::s_bubbleLaunched(Bubble* bubble) {
-	Scene::getInstance()->
+void Scene::addBubble(Bubble* b) {
+	m_bubbles.push_back(b);
+	grid->checkLaunch(*b->getPosition(), *b->getDirection());
+}
 
+void Scene::s_bubbleLaunched(Bubble* bubble) {
+	Game::instance().getScene().addBubble(bubble);
 }

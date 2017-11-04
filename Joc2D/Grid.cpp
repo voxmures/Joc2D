@@ -38,7 +38,7 @@ Grid::Grid(std::vector<Bubble*> &map) {
 
 void Grid::checkLaunch(glm::vec2& start, glm::vec2& dir)
 {
-	
+	// TODO
 }
 
 void Grid::testGrid() {

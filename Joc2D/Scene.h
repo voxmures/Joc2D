@@ -24,6 +24,8 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	void addBubble(Bubble* b);
+
 private:
 	void initShaders();
 	std::vector<Bubble*> loadBubbleMap();

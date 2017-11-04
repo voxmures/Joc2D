@@ -31,7 +31,13 @@ class Bubble {
 
 		int getValue();
 		float getRadius();
+		glm::vec2* getPosition() {
+			return &position;
+		}
 
+		glm::vec2* getDirection() {
+			return &direction;
+		}
 
     private:
 
