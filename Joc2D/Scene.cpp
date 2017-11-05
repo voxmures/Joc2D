@@ -47,9 +47,11 @@ void Scene::init()
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
 
-	std::vector<Bubble*> bubbles = loadBubbleMap();
-
-	grid = new Grid(bubbles);
+	std::vector<Bubble*> map;
+	
+	Grid::loadLevel("levels/level01.txt", map, m_bubbles, texProgram);
+	//std::vector<Bubble*> bubbles = loadBubbleMap();
+	grid = new Grid(map);
 	grid->testGrid();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);

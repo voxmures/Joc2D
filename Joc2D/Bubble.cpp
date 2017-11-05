@@ -28,6 +28,8 @@ void Bubble::update(int deltaTime){
         position = newPos;
     }
 
+    
+
     sprite->setPosition(position);
 
 }

@@ -89,7 +89,7 @@ static void idleCallback()
 int main(int argc, char **argv)
 {
 	// Open a console for standard output
-	AllocConsole();
+	//AllocConsole();
 	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);

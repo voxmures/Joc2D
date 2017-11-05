@@ -20,6 +20,8 @@ public:
 
 	void testGrid();
 
+	static bool loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubble*> &bubbles, ShaderProgram &shaderProgram);
+
 private:
 	std::vector< std::vector<Hex *> > hexagons;
 

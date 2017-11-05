@@ -1,6 +1,8 @@
 #include "Grid.h"
 
 #include<iostream>
+#include<fstream>
+#include<sstream>
 
 Grid::Grid() {
 	for (int i = 0; i < N; i++) {
@@ -95,3 +97,66 @@ std::vector<Hex*> Grid::BFS(Hex* start) {
 	return visited;
 }
 
+
+
+bool Grid::loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubble*> &bubbles, ShaderProgram &shaderProgram){
+	ifstream fin;
+	string line, tilesheetFile;
+	stringstream sstream;
+	char bubble;
+	int rows;
+	
+	fin.open(levelFile.c_str());
+	if(!fin.is_open())
+		return false;
+	getline(fin, line);
+	if(line.compare(0, 9, "BOBBLEMAP") != 0)
+		return false;
+	getline(fin, line);
+	sstream.str(line);
+	sstream >> rows;
+	
+	//std::vector<Bubble*> map;
+	map.clear();
+	bubbles.clear();
+
+	for(int j=0; j<rows; j++)
+	{
+		int col = ( j%2==0 ? 8 : 7 );
+		getline(fin, line);
+		for(int i=0; i<col; i++)
+		{
+			bubble = line[i];
+			if(bubble >= '0' and bubble <= '9'){
+				int b = bubble - '0';
+				Bubble* b_obj = new Bubble();
+				Bubble::Color c;
+				switch (b) {
+				case 0:
+					c = Bubble::Color::Blue; break;
+				case 1:
+					c = Bubble::Color::Dark; break;
+				case 2:
+					c = Bubble::Color::Green; break;
+				case 3:
+					c = Bubble::Color::Orange; break;
+				case 4:
+					c = Bubble::Color::Purple; break;
+				case 5:
+					c = Bubble::Color::Red; break;
+				case 6:
+					c = Bubble::Color::White; break;
+				case 7:
+					c = Bubble::Color::Yellow; break;
+			}
+				b_obj->init(c, shaderProgram);
+				map.push_back(b_obj);
+				bubbles.push_back(b_obj);
+			}
+			else map.push_back(NULL);
+		}
+	}
+	fin.close();
+
+	return true;
+}
