@@ -12,6 +12,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 {
 	machine_spritesheet.loadFromFile("images/machine.png", TEXTURE_PIXEL_FORMAT_RGBA);
 
+	launched = false;
 	m_cb = cb;
 
 	arrow_sprite = PowerSprite::createSprite(glm::ivec2(128,64) , glm::vec2(1/12.f,0.5), &machine_spritesheet, &shaderProgram);
@@ -63,12 +64,13 @@ void BubbleLauncher::update(int deltaTime)
 	{
 		arrowAngle+=2;
 	}
-	else if(Game::instance().getSpecialKey(GLUT_KEY_UP))
+	else if(Game::instance().getSpecialKey(GLUT_KEY_UP) && !launched)
 	{
 		float bubX = cos(arrowAngle*M_PI/180)*-4;
 		float bubY = sin(arrowAngle*M_PI/180)*-4;
 		primary_bubble->launch(glm::vec2(bubX,bubY));
-		m_cb(primary_bubble);
+		m_cb(primary_bubble, arrowAngle);
+		launched = true;
 	}
 
 	//sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));

@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "Grid.h"
 
 #include<iostream>
@@ -36,9 +39,69 @@ Grid::Grid(std::vector<Bubble*> &map) {
 	}
 }
 
-void Grid::checkLaunch(glm::vec2& start, glm::vec2& dir)
+void Grid::checkLaunch(Bubble* bubble, float angle)
 {
-	// TODO
+	Hex* prev = NULL;
+	glm::vec2 position = *bubble->getPosition();
+
+	bool found = false;
+	while (!found) {
+		position.x += cos(angle*M_PI / 180) * -16;
+		position.y += sin(angle*M_PI / 180) * -16;
+		Hex* current = coordToHex(position);
+		if (current != NULL && current->getValue() != -1) {
+			found = true;
+			continue;
+		}
+		prev = current;
+	}
+	prev->setBubble(bubble);
+}
+
+Hex* Grid::coordToHex(glm::vec2& position) {
+	float w = 32.f;
+	float radius = 32.f / 2;
+	float x = position.x,
+		y = position.y;
+
+	x -= 208.f - radius;
+	y -= 42.f - radius;
+	int row = (int)(y / (w * 3 / 4));
+	int col;
+
+	if (row % 2 == 0) {
+		col = (int)(x / w);
+	}
+	else {
+		col = (int)((x - radius) / w);
+	}
+
+	float relY = y - (row * (w * 3 / 4));
+	float relX;
+
+	if (row % 2 == 0) {
+		relX = x - (col * w);
+	}
+	else {
+		relX = (x - (col * w)) - radius;
+	}
+
+	float c = radius / 2;
+	float m = c / radius;
+	if (relY < (-m * relX) + c) { // LEFT edge
+		row--;
+	}
+	else if (relY < (m * relX) - c) { // RIGHT edge
+		col++;
+		row--;
+	}
+
+	col -= row / 2;
+
+	if (row >= 12)
+		return NULL;
+
+	return hexagons[row][(N / 2 - 1) + col];
 }
 
 void Grid::testGrid() {

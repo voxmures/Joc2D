@@ -24,13 +24,13 @@ public:
 	void update(int deltaTime);
 	void render();
 
-	void addBubble(Bubble* b);
+	void addBubble(Bubble* b, float angle);
 
 private:
 	void initShaders();
 	std::vector<Bubble*> loadBubbleMap();
 
-	static void s_bubbleLaunched(Bubble* bubble);
+	static void s_bubbleLaunched(Bubble* bubble, float angle);
 
 	Sprite *background;
 	Texture bg_texture;

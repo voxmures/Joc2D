@@ -13,7 +13,7 @@
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
-typedef void(*Callback)(Bubble*);
+typedef void(*Callback)(Bubble*, float angle);
 
 class BubbleLauncher
 {
@@ -24,6 +24,8 @@ public:
 	void render();
 
 	void setPosition(const glm::vec2 &pos);
+
+	void freeLaunch() { launched = false; }
 
 private:
 	int jumpAngle, startY;
@@ -36,6 +38,8 @@ private:
 	Bubble *primary_bubble;
 	Sprite *sprite;
 	TileMap *map;
+
+	bool launched;
 
 	Callback m_cb;
 };

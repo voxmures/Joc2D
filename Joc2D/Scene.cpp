@@ -144,11 +144,11 @@ void Scene::initShaders()
 	fShader.free();
 }
 
-void Scene::addBubble(Bubble* b) {
+void Scene::addBubble(Bubble* b, float angle) {
 	m_bubbles.push_back(b);
-	grid->checkLaunch(*b->getPosition(), *b->getDirection());
+	grid->checkLaunch(b, angle);
 }
 
-void Scene::s_bubbleLaunched(Bubble* bubble) {
-	Game::instance().getScene().addBubble(bubble);
+void Scene::s_bubbleLaunched(Bubble* bubble, float angle) {
+	Game::instance().getScene().addBubble(bubble, angle);
 }

@@ -17,7 +17,7 @@ public:
 	Grid();
 	Grid(std::vector<Bubble*> &map);
 
-	void checkLaunch(glm::vec2& start, glm::vec2& dir);
+	void checkLaunch(Bubble* bubble, float angle);
 
 	void testGrid();
 
@@ -26,6 +26,8 @@ private:
 
 	Hex* getNeighbour(Hex* hex, int direction);
 	std::vector<Hex*> BFS(Hex* start);
+
+	Hex* coordToHex(glm::vec2& position);
 
 };
 

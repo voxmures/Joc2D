@@ -41,7 +41,7 @@ int Bubble::getValue() {
 }
 
 float Bubble::getRadius() {
-	return sprite->getSize() / 2;
+	return /*sprite->getSize()*/ 64.f / 2;
 }
 
 void Bubble::load_textures() {
