@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "Texture.h"
 
+#define BubbleColors 7
+
 
 
 enum Color { Blue, Dark, Green, Orange, Purple, Red, White, Yellow, NoColor };

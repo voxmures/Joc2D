@@ -34,8 +34,12 @@ private:
 	PowerSprite *machine_sprite;
 	PowerSprite *wheel_sprite;
 	Bubble *primary_bubble;
+	Bubble *secondary_bubble;
+	Bubble *launched_bubble;
 	Sprite *sprite;
 	TileMap *map;
+
+	ShaderProgram shaderProgram;
 
 };
 
