@@ -10,6 +10,7 @@
 #include "Bubble.h"
 #include "Sprite.h"
 #include "Grid.h"
+#include "Text.h"
 
 // Scene contains all the entities of our game.
 // It is responsible for updating and render them.
@@ -48,6 +49,12 @@ private:
 	ShaderProgram texProgram;
 	float currentTime;
 	glm::mat4 projection;
+
+	int score;
+	char scoreBoardBuffer[100];
+	Text *scoreBoard;
+	
+
 };
 
 

@@ -58,6 +58,8 @@ void Scene::init()
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+	scoreBoard = new Text();
+	scoreBoard->init("fonts/DroidSerif.ttf");
 }
 
 void Scene::update(int deltaTime)
@@ -84,6 +86,9 @@ void Scene::render()
 	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
 		m_bubbles[i]->render();
 	}
+
+	sprintf(scoreBoardBuffer, "Score: %d", score);
+	scoreBoard->render(scoreBoardBuffer, glm::vec2(50,50), 20, glm::vec4(0,255,0,255) );
 }
 
 std::vector<Bubble*> Scene::loadBubbleMap() 
