@@ -112,6 +112,10 @@ glm::vec2& Grid::getHexCentre(int r, int q) {
 	return result;
 }
 
+void Grid::assignBubble(int r, int q, Bubble* b) {
+	hexagons[r][(N / 2 - 1) + q]->hookBubble(b);
+}
+
 glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
 	float w = 32.f;
 	float radius = 32.f / 2;

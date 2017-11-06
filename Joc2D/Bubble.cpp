@@ -66,6 +66,7 @@ void Bubble::update(int deltaTime){
 				position = c;
 				direction.x = direction.y = 0;
 				m_hooked = true;
+				g->assignBubble(hexCoord.x, hexCoord.y, this);
 			} 
 		}
 
