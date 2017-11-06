@@ -127,7 +127,7 @@ bool Grid::loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubbl
 		for(int i=0; i<col; i++)
 		{
 			bubble = line[i];
-			if(bubble >= '0' and bubble <= '9'){
+			if(bubble >= '0' && bubble <= '9'){
 				int b = bubble - '0';
 				Bubble* b_obj = new Bubble();
 				Bubble::Color c;
