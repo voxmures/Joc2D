@@ -62,7 +62,7 @@ public:
 		return -1;
 	}
 
-	void setBubble(Bubble* b) {
+	void hookBubble(Bubble* b) {
 		m_bubble = b;
 	}
 

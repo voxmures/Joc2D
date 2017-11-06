@@ -39,26 +39,77 @@ Grid::Grid(std::vector<Bubble*> &map) {
 	}
 }
 
-void Grid::checkLaunch(Bubble* bubble, float angle)
-{
-	Hex* prev = NULL;
-	glm::vec2 position = *bubble->getPosition();
+//void Grid::checkLaunch(Bubble* bubble, float angle)
+//{
+//	Hex* prev = NULL;
+//	glm::vec2 position = *bubble->getPosition();
+//
+//	bool factor = true;
+//	bool found = false;
+//	while (!found) {
+//		position.x += cos(angle*M_PI / 180) * 32 * (factor ? -1 : 1);
+//		if (position.x < 202) {
+//			position.x += (202 - position.x);
+//			factor = !factor;
+//		}
+//		else if (position.x > 439) {
+//			position.x -= (position.x - 439);
+//			factor = !factor;
+//		}
+//
+//		position.y += sin(angle*M_PI / 180) * -24;
+//		if (position.y <= 42.f) {
+//			found = true;
+//			continue;
+//		}
+//
+//		Hex* current = coordToHex(position);
+//		if (current != NULL && current->getValue() != -1) {
+//			found = true;
+//			continue;
+//		}
+//
+//		if (current != NULL)
+//			prev = current;
+//	}
+//	prev->hookBubble(bubble);
+//}
 
-	bool found = false;
-	while (!found) {
-		position.x += cos(angle*M_PI / 180) * -16;
-		position.y += sin(angle*M_PI / 180) * -16;
-		Hex* current = coordToHex(position);
-		if (current != NULL && current->getValue() != -1) {
-			found = true;
-			continue;
-		}
-		prev = current;
-	}
-	prev->setBubble(bubble);
+bool Grid::isOccupiedHex(int r, int q) {
+	return hexagons[r][(N / 2 - 1) + q]->getValue() != -1;
 }
 
-Hex* Grid::coordToHex(glm::vec2& position) {
+glm::vec2& Grid::getHexCoord(glm::vec2& position) {
+	return pixelToHexCoord(position);
+}
+
+bool Grid::isValidHex(glm::vec2& coord) {
+	int r = coord.x,
+		q = coord.y;
+	if (r >= 0 && r <= 11 && q >= -5 && q <= 7) {
+		if (q < -(r / 2))
+			return false;
+
+		bool rowIsOdd = (r % 2 != 0);
+		if (!rowIsOdd && q < -(r / 2) + 7)
+			return true;
+		else if (rowIsOdd && q < -(r / 2) + 8)
+			return true;
+	}
+	return false;
+}
+
+glm::vec2& Grid::getHexCentre(int r, int q) {
+	glm::vec2 result;
+	result.x = 208.f + (q + r / 2) * 32.f;
+	if (r % 2 != 0)
+		result.x += 32.f / 2;
+	result.y = 42.f + /*32.f / 2 +*/ r * 32.f;
+
+	return result;
+}
+
+glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
 	float w = 32.f;
 	float radius = 32.f / 2;
 	float x = position.x,
@@ -89,19 +140,19 @@ Hex* Grid::coordToHex(glm::vec2& position) {
 	float c = radius / 2;
 	float m = c / radius;
 	if (relY < (-m * relX) + c) { // LEFT edge
+		if (row % 2 == 0)
+			col--;
 		row--;
 	}
 	else if (relY < (m * relX) - c) { // RIGHT edge
-		col++;
+		if (row % 2 != 0)
+			col++;
 		row--;
 	}
 
 	col -= row / 2;
-
-	if (row >= 12)
-		return NULL;
-
-	return hexagons[row][(N / 2 - 1) + col];
+	
+	return glm::vec2(row, col);
 }
 
 void Grid::testGrid() {

@@ -46,8 +46,8 @@ class Bubble {
         glm::vec2 position;
         glm::vec2 direction;
         Sprite *sprite;
-        
-        
+
+		glm::vec2 hexCoord;
 };
 
 #endif // _BUBBLE_INCLUDE

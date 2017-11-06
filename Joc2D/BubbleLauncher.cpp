@@ -45,7 +45,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 
 	Bubble::Color c = Bubble::Color::Dark;
 	primary_bubble = new Bubble;
-	primary_bubble->init(Bubble::Color::White, shaderProgram);
+	primary_bubble->init(Bubble::Color::Red, shaderProgram);
 	//primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y-9));	
 	primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y));
 }
@@ -69,7 +69,7 @@ void BubbleLauncher::update(int deltaTime)
 		float bubX = cos(arrowAngle*M_PI/180)*-4;
 		float bubY = sin(arrowAngle*M_PI/180)*-4;
 		primary_bubble->launch(glm::vec2(bubX,bubY));
-		m_cb(primary_bubble, arrowAngle);
+		m_cb(primary_bubble);
 		launched = true;
 	}
 
