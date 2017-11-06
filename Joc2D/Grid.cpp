@@ -82,7 +82,7 @@ bool Grid::isOccupiedHex(int r, int q) {
 	return hexagons[r][(N / 2 - 1) + q]->getValue() != -1;
 }
 
-glm::vec2& Grid::getHexCoord(glm::vec2& position) {
+glm::vec2 Grid::getHexCoord(glm::vec2& position) {
 	return pixelToHexCoord(position);
 }
 
@@ -102,7 +102,7 @@ bool Grid::isValidHex(glm::vec2& coord) {
 	return false;
 }
 
-glm::vec2& Grid::getHexCentre(int r, int q) {
+glm::vec2 Grid::getHexCentre(int r, int q) {
 	glm::vec2 result;
 	float marginLeft = 208.f;
 	if (r % 2 != 0)
@@ -127,7 +127,7 @@ void Grid::assignBubble(int r, int q, Bubble* b) {
 	}
 }
 
-glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
+glm::vec2 Grid::pixelToHexCoord(glm::vec2& position) {
 	float w = 32.f;
 	float radius = 32.f / 2;
 	float x = position.x,
