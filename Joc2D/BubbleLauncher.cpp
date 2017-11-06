@@ -7,17 +7,19 @@
 #include "BubbleLauncher.h"
 #include "Game.h"
 #include "Bubble.h"
+
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
-void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
+void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, Callback cb)
 {
-
 	this->shaderProgram = shaderProgram;
 
 	srand(time(NULL));
 
 	machine_spritesheet.loadFromFile("images/machine.png", TEXTURE_PIXEL_FORMAT_RGBA);
+
+	m_cb = cb;
 
 	arrow_sprite = PowerSprite::createSprite(glm::ivec2(128,64) , glm::vec2(1/12.f,0.5), &machine_spritesheet, &shaderProgram);
 	arrow_sprite->setNumberAnimations(1);
@@ -47,34 +49,21 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	machine_sprite->changeAnimation(0);
 	machine_sprite->setPosition(glm::vec2(208,300));
 
-	Bubble::Color c = Bubble::Color::Dark;
 	primary_bubble = new Bubble;
-	primary_bubble->init(Bubble::Color::White, shaderProgram);
+	primary_bubble->init(Bubble::Color::Red, shaderProgram, false);
 	//primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y-9));	
 	primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y));
-	
+
 	secondary_bubble = new Bubble;
-	secondary_bubble->init(Bubble::Color::Red, shaderProgram);
+	secondary_bubble->init(Bubble::Color::Red, shaderProgram, false);
 	secondary_bubble->setPosition(glm::vec2(ARROW_X-45,ARROW_Y+45));
-
-
-
-
-
-
 }
 
 void BubbleLauncher::update(int deltaTime)
 {
 
-	if ( launched_bubble != NULL ){
-		launched_bubble->update(deltaTime);
-	}
-	//sprite->update(deltaTime);
 	arrow_sprite->update(deltaTime);
 	machine_sprite->update(deltaTime);
-	primary_bubble->update(deltaTime);
-	secondary_bubble->update(deltaTime);
 
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
@@ -86,7 +75,7 @@ void BubbleLauncher::update(int deltaTime)
 	}
 	else if(Game::instance().getSpecialKey(GLUT_KEY_UP))
 	{
-		if ( launched_bubble == NULL){
+		if (launched_bubble == NULL) {
 			float bubX = cos(arrowAngle*M_PI/180)*-4;
 			float bubY = sin(arrowAngle*M_PI/180)*-4;
 			launched_bubble = primary_bubble;
@@ -95,31 +84,29 @@ void BubbleLauncher::update(int deltaTime)
 
 			secondary_bubble = new Bubble;
 			Bubble::Color c = Bubble::Color(rand() % BubbleColors);
-			secondary_bubble->init(c,shaderProgram);
+			secondary_bubble->init(c,shaderProgram, false);
 			secondary_bubble->setPosition(glm::vec2(ARROW_X-45,ARROW_Y+45));
 			
 			launched_bubble->launch(glm::vec2(bubX,bubY));
+			m_cb(launched_bubble);
 		}
-		
 	}
 
+	if (launched_bubble != NULL) {	// check hook
+		if (launched_bubble->isHooked()) {
+			launched_bubble = NULL;
+		}
+	}
 
-	//sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
-	//arrow_sprite->setPosition(glm::vec2(float(tileMapDispl.x + posPlayer.x), float(tileMapDispl.y + posPlayer.y)));
 	arrow_sprite->setRotation(arrowAngle);
-	//float bubX = ARROW_X + cos(arrowAngle*M_PI/180)*-9;
-	//float bubY = ARROW_Y + sin(arrowAngle*M_PI/180)*-9;
-	//primary_bubble->setPosition(glm::vec2(bubX,bubY));
 }
 
 void BubbleLauncher::render()
 {
-	//sprite->render();
-	//machine_sprite->render();
 	arrow_sprite->render();
 	primary_bubble->render();
 	secondary_bubble->render();
-	if ( launched_bubble != NULL ){
-		launched_bubble->render();
-	}
+	//if ( launched_bubble != NULL ){
+	//	launched_bubble->render();
+	//}
 }

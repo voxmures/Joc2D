@@ -42,7 +42,8 @@ void Scene::init()
 
 	Bubble::load_textures();
 	bubblelauncher = new BubbleLauncher();
-	bubblelauncher->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	bubblelauncher->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, &s_bubbleLaunched);
+
 	bg_texture.loadFromFile("images/background-scaled.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
@@ -62,6 +63,9 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	bubblelauncher->update(deltaTime);
+	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
+		m_bubbles[i]->update(deltaTime);
+	}
 }
 
 void Scene::render()
@@ -84,7 +88,7 @@ void Scene::render()
 std::vector<Bubble*> Scene::loadBubbleMap() 
 {
 	std::vector<Bubble*> result;
-	for (int i = 0; i < gmap.size(); i++) {
+	for (unsigned int i = 0; i < gmap.size(); i++) {
 		if (gmap[i] > -1) {
 			Bubble* b = new Bubble();
 			Bubble::Color c;
@@ -106,7 +110,7 @@ std::vector<Bubble*> Scene::loadBubbleMap()
 				case 7:
 					c = Bubble::Color::Yellow; break;
 			}
-			b->init(c, texProgram);
+			b->init(c, texProgram, true);
 			m_bubbles.push_back(b);
 			result.push_back(b);
 		}
@@ -143,4 +147,12 @@ void Scene::initShaders()
 	texProgram.bindFragmentOutput("outColor");
 	vShader.free();
 	fShader.free();
+}
+
+void Scene::addBubble(Bubble* b) {
+	m_bubbles.push_back(b);
+}
+
+void Scene::s_bubbleLaunched(Bubble* bubble) {
+	Game::instance().getScene().addBubble(bubble);
 }

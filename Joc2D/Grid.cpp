@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "Grid.h"
 
 #include<iostream>
@@ -36,6 +39,123 @@ Grid::Grid(std::vector<Bubble*> &map) {
 		}
 		hexagons.push_back(row);
 	}
+}
+
+//void Grid::checkLaunch(Bubble* bubble, float angle)
+//{
+//	Hex* prev = NULL;
+//	glm::vec2 position = *bubble->getPosition();
+//
+//	bool factor = true;
+//	bool found = false;
+//	while (!found) {
+//		position.x += cos(angle*M_PI / 180) * 32 * (factor ? -1 : 1);
+//		if (position.x < 202) {
+//			position.x += (202 - position.x);
+//			factor = !factor;
+//		}
+//		else if (position.x > 439) {
+//			position.x -= (position.x - 439);
+//			factor = !factor;
+//		}
+//
+//		position.y += sin(angle*M_PI / 180) * -24;
+//		if (position.y <= 42.f) {
+//			found = true;
+//			continue;
+//		}
+//
+//		Hex* current = coordToHex(position);
+//		if (current != NULL && current->getValue() != -1) {
+//			found = true;
+//			continue;
+//		}
+//
+//		if (current != NULL)
+//			prev = current;
+//	}
+//	prev->hookBubble(bubble);
+//}
+
+bool Grid::isOccupiedHex(int r, int q) {
+	return hexagons[r][(N / 2 - 1) + q]->getValue() != -1;
+}
+
+glm::vec2& Grid::getHexCoord(glm::vec2& position) {
+	return pixelToHexCoord(position);
+}
+
+bool Grid::isValidHex(glm::vec2& coord) {
+	int r = coord.x,
+		q = coord.y;
+	if (r >= 0 && r <= 11 && q >= -5 && q <= 7) {
+		if (q < -(r / 2))
+			return false;
+
+		bool rowIsOdd = (r % 2 != 0);
+		if (!rowIsOdd && q < -(r / 2) + 7)
+			return true;
+		else if (rowIsOdd && q < -(r / 2) + 8)
+			return true;
+	}
+	return false;
+}
+
+glm::vec2& Grid::getHexCentre(int r, int q) {
+	glm::vec2 result;
+	float marginLeft = 208.f;
+	if (r % 2 != 0)
+		marginLeft += 32.f / 2;
+	result.x = marginLeft + (q + r / 2) * 32.f;
+	result.y = 42.f + r * 32.f;
+
+	return result;
+}
+
+glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
+	float w = 32.f;
+	float radius = 32.f / 2;
+	float x = position.x,
+		y = position.y;
+
+	x -= 208.f - radius;
+	y -= 42.f - radius;
+	int row = (int)(y / (w /** 3 / 4*/));
+	int col;
+
+	if (row % 2 == 0) {
+		col = (int)(x / w);
+	}
+	else {
+		col = (int)((x - radius) / w);
+	}
+
+	//float relY = y - (row * (w /** 3 / 4*/));
+	//float relX;
+
+	//if (row % 2 == 0) {
+	//	relX = x - (col * w);
+	//}
+	//else {
+	//	relX = (x - (col * w)) - radius;
+	//}
+
+	//float c = radius / 2;
+	//float m = c / radius;
+	//if (relY < (-m * relX) + c) { // LEFT edge
+	//	if (row % 2 == 0)
+	//		col--;
+	//	row--;
+	//}
+	//else if (relY < (m * relX) - c) { // RIGHT edge
+	//	if (row % 2 != 0)
+	//		col++;
+	//	row--;
+	//}
+
+	col -= row / 2;
+	
+	return glm::vec2(row, col);
 }
 
 void Grid::testGrid() {
@@ -149,7 +269,7 @@ bool Grid::loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubbl
 				case 7:
 					c = Bubble::Color::Yellow; break;
 			}
-				b_obj->init(c, shaderProgram);
+				b_obj->init(c, shaderProgram, true);
 				map.push_back(b_obj);
 				bubbles.push_back(b_obj);
 			}

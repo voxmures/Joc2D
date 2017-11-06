@@ -18,6 +18,13 @@ public:
 	Grid();
 	Grid(std::vector<Bubble*> &map);
 
+	void checkLaunch(Bubble* bubble, float angle);
+
+	bool isOccupiedHex(int r, int q);
+	glm::vec2& getHexCoord(glm::vec2& position);
+	bool isValidHex(glm::vec2& coord);
+	glm::vec2& getHexCentre(int r, int q);
+
 	void testGrid();
 
 	static bool loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubble*> &bubbles, ShaderProgram &shaderProgram);
@@ -27,7 +34,7 @@ private:
 
 	Hex* getNeighbour(Hex* hex, int direction);
 	std::vector<Hex*> BFS(Hex* start);
-
+	glm::vec2& pixelToHexCoord(glm::vec2& position);
 };
 
 #endif //_GRID_INCLUDE

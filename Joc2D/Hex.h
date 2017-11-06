@@ -62,6 +62,10 @@ public:
 		return -1;
 	}
 
+	void hookBubble(Bubble* b) {
+		m_bubble = b;
+	}
+
 private:
 	const int m_r, m_q;
 

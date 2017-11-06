@@ -19,7 +19,7 @@ class Bubble {
 
         enum Color { Blue, Dark, Green, Orange, Purple, Red, White, Yellow, NoColor };
         enum BubbleState {Active, Shading, Exploding, Dead};
-        void init(Color color, ShaderProgram &shaderProgram);
+        void init(Color c, ShaderProgram &shaderProgram, bool hooked);
         //void init(int color, ShaderProgram &shaderProgram);
 
         static void load_textures();
@@ -31,9 +31,17 @@ class Bubble {
 
         void launch(const glm::vec2 &dir);
 
+		bool isHooked() { return m_hooked; }
+
 		int getValue();
 		float getRadius();
+		glm::vec2* getPosition() {
+			return &position;
+		}
 
+		glm::vec2* getDirection() {
+			return &direction;
+		}
 
     private:
 
@@ -42,8 +50,10 @@ class Bubble {
         glm::vec2 position;
         glm::vec2 direction;
         Sprite *sprite;
-        
-        
+
+		bool m_hooked;
+
+		glm::vec2 hexCoord;
 };
 
 #endif // _BUBBLE_INCLUDE

@@ -13,13 +13,13 @@
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
-
+typedef void(*Callback)(Bubble*);
 
 class BubbleLauncher
 {
 
 public:
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
+	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, Callback cb);
 	void update(int deltaTime);
 	void render();
 
@@ -41,6 +41,7 @@ private:
 
 	ShaderProgram shaderProgram;
 
+	Callback m_cb;
 };
 
 
