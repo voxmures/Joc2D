@@ -66,6 +66,12 @@ public:
 		m_bubble = b;
 	}
 
+	Bubble* removeBubble() {
+		Bubble* result = m_bubble;
+		m_bubble = NULL;
+		return result;
+	}
+
 private:
 	const int m_r, m_q;
 

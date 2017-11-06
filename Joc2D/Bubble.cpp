@@ -36,6 +36,8 @@ void Bubble::update(int deltaTime){
 			position = newPos;
 		}
 
+		sprite->setPosition(position);
+
 		std::cout << position.x << ", " << position.y << std::endl;
 		//Check next hex
 		Grid* g = Game::instance().getScene().getGrid();
@@ -64,13 +66,12 @@ void Bubble::update(int deltaTime){
 			glm::vec2 next = g->getHexCoord(nextP);
 			if (g->isValidHex(next) && g->isOccupiedHex(next.x, next.y)) {
 				position = c;
+				sprite->setPosition(position);
 				direction.x = direction.y = 0;
 				m_hooked = true;
 				g->assignBubble(hexCoord.x, hexCoord.y, this);
 			} 
 		}
-
-		sprite->setPosition(position);
 	}
 }
 

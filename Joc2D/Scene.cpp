@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
+#include <algorithm>
 #include "Scene.h"
 #include "Game.h"
 #include "Bubble.h"
@@ -151,6 +152,13 @@ void Scene::initShaders()
 
 void Scene::addBubble(Bubble* b) {
 	m_bubbles.push_back(b);
+}
+
+void Scene::removeBubble(Bubble* b) {
+	std::vector<Bubble*>::iterator it;
+	it = std::find(m_bubbles.begin(), m_bubbles.end(), b);
+	m_bubbles.erase(it);
+	delete b;
 }
 
 void Scene::s_bubbleLaunched(Bubble* bubble) {

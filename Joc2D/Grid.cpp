@@ -2,6 +2,7 @@
 #include <cmath>
 
 #include "Grid.h"
+#include "Game.h"
 
 #include<iostream>
 #include<fstream>
@@ -114,6 +115,16 @@ glm::vec2& Grid::getHexCentre(int r, int q) {
 
 void Grid::assignBubble(int r, int q, Bubble* b) {
 	hexagons[r][(N / 2 - 1) + q]->hookBubble(b);
+	Hex* target = hexagons[r][(N / 2 - 1) + q];
+	vector<Hex*> conn = BFS(target);
+	if (conn.size() >= 3) {
+		for (unsigned int i = 0; i < conn.size(); i++) {
+			Hex* current = conn[i];
+			Bubble* b = current->removeBubble();
+			Game::instance().getScene().removeBubble(b);
+		}
+		// TODO: Comprobar si hay algo colgando
+	}
 }
 
 glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
@@ -133,29 +144,6 @@ glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
 	else {
 		col = (int)((x - radius) / w);
 	}
-
-	//float relY = y - (row * (w /** 3 / 4*/));
-	//float relX;
-
-	//if (row % 2 == 0) {
-	//	relX = x - (col * w);
-	//}
-	//else {
-	//	relX = (x - (col * w)) - radius;
-	//}
-
-	//float c = radius / 2;
-	//float m = c / radius;
-	//if (relY < (-m * relX) + c) { // LEFT edge
-	//	if (row % 2 == 0)
-	//		col--;
-	//	row--;
-	//}
-	//else if (relY < (m * relX) - c) { // RIGHT edge
-	//	if (row % 2 != 0)
-	//		col++;
-	//	row--;
-	//}
 
 	col -= row / 2;
 	

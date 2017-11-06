@@ -25,6 +25,7 @@ public:
 	void render();
 
 	void addBubble(Bubble* b);
+	void removeBubble(Bubble* b);
 
 	Grid* getGrid() {
 		return grid;
