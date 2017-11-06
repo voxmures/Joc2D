@@ -101,10 +101,11 @@ bool Grid::isValidHex(glm::vec2& coord) {
 
 glm::vec2& Grid::getHexCentre(int r, int q) {
 	glm::vec2 result;
-	result.x = 208.f + (q + r / 2) * 32.f;
+	float marginLeft = 208.f;
 	if (r % 2 != 0)
-		result.x += 32.f / 2;
-	result.y = 42.f + /*32.f / 2 +*/ r * 32.f;
+		marginLeft += 32.f / 2;
+	result.x = marginLeft + (q + r / 2) * 32.f;
+	result.y = 42.f + r * 32.f;
 
 	return result;
 }
@@ -117,7 +118,7 @@ glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
 
 	x -= 208.f - radius;
 	y -= 42.f - radius;
-	int row = (int)(y / (w * 3 / 4));
+	int row = (int)(y / (w /** 3 / 4*/));
 	int col;
 
 	if (row % 2 == 0) {
@@ -127,28 +128,28 @@ glm::vec2& Grid::pixelToHexCoord(glm::vec2& position) {
 		col = (int)((x - radius) / w);
 	}
 
-	float relY = y - (row * (w * 3 / 4));
-	float relX;
+	//float relY = y - (row * (w /** 3 / 4*/));
+	//float relX;
 
-	if (row % 2 == 0) {
-		relX = x - (col * w);
-	}
-	else {
-		relX = (x - (col * w)) - radius;
-	}
+	//if (row % 2 == 0) {
+	//	relX = x - (col * w);
+	//}
+	//else {
+	//	relX = (x - (col * w)) - radius;
+	//}
 
-	float c = radius / 2;
-	float m = c / radius;
-	if (relY < (-m * relX) + c) { // LEFT edge
-		if (row % 2 == 0)
-			col--;
-		row--;
-	}
-	else if (relY < (m * relX) - c) { // RIGHT edge
-		if (row % 2 != 0)
-			col++;
-		row--;
-	}
+	//float c = radius / 2;
+	//float m = c / radius;
+	//if (relY < (-m * relX) + c) { // LEFT edge
+	//	if (row % 2 == 0)
+	//		col--;
+	//	row--;
+	//}
+	//else if (relY < (m * relX) - c) { // RIGHT edge
+	//	if (row % 2 != 0)
+	//		col++;
+	//	row--;
+	//}
 
 	col -= row / 2;
 	

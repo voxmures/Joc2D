@@ -55,7 +55,7 @@ void BubbleLauncher::update(int deltaTime)
 	//sprite->update(deltaTime);
 	arrow_sprite->update(deltaTime);
 	machine_sprite->update(deltaTime);
-	primary_bubble->update(deltaTime);
+	//primary_bubble->update(deltaTime);
 	if(Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
 		arrowAngle-=2;

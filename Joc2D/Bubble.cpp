@@ -35,33 +35,36 @@ void Bubble::update(int deltaTime){
 			position = newPos;
 		}
 
+		std::cout << position.x << ", " << position.y << std::endl;
 		//Check next hex
 		Grid* g = Game::instance().getScene().getGrid();
 
 		glm::vec2 current = g->getHexCoord(position);
 		if (current != hexCoord && g->isValidHex(current)) {	// Moved to a new Hex -> Check next hex
 			hexCoord = current;
+			std::cout << "Hex found!" << std::endl;
 			std::cout << hexCoord.x << ", " << hexCoord.y << std::endl;
 
-			glm::vec2 dirCopy = glm::vec2(direction);
-			glm::vec2 next;
-			glm::vec2 nextP = glm::vec2(position);
-			bool found = false;
-			while (!found) {
-				nextP += dirCopy;
-				if (nextP.x <= 202 || nextP.x >= 439) {
-					dirCopy.x *= -1;
-					nextP += dirCopy;
-				}
-				next = g->getHexCoord(nextP);
-				if (next != hexCoord && g->isValidHex(next)) {
-					found = true;
-					if (g->isOccupiedHex(next.x, next.y)) {
-						position = g->getHexCentre(hexCoord.x, hexCoord.y);
-						direction.x = direction.y = 0.f;
-					}
-				}
+			glm::vec2 c = g->getHexCentre(hexCoord.x, hexCoord.y);
+			float angle = asin(direction.y / (-4)) * 180 / M_PI;
+			glm::vec2 hexSizeDir;
+			hexSizeDir.x = cos(angle * M_PI / 180) * 32;
+			if (direction.x < 0) {
+				hexSizeDir.x *= -1;
 			}
+			hexSizeDir.y = sin(angle * M_PI / 180) * -32;
+
+			glm::vec2 nextP = c + hexSizeDir;
+			if (nextP.x <= 202 || nextP.x >= 439) {
+				hexSizeDir.x *= -1;
+				nextP.x += hexSizeDir.x;
+			}
+
+			glm::vec2 next = g->getHexCoord(nextP);
+			if (g->isValidHex(next) && g->isOccupiedHex(next.x, next.y)) {
+				position = c;
+				direction.x = direction.y = 0;
+			} 
 		}
 
 		sprite->setPosition(position);

@@ -61,6 +61,9 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	bubblelauncher->update(deltaTime);
+	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
+		m_bubbles[i]->update(deltaTime);
+	}
 }
 
 void Scene::render()
