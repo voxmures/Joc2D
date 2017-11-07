@@ -24,6 +24,10 @@ public:
 	glm::vec2 getHexCentre(int r, int q);
 	void assignBubble(int r, int q, Bubble* b);
 
+	void setMarginTop(float margin) {
+		m_margin = margin;
+	}
+
 	void testGrid();
 
 	static bool loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubble*> &bubbles, ShaderProgram &shaderProgram);
@@ -36,6 +40,8 @@ private:
 	std::vector<Hex*> BFS(Hex* start);
 	std::vector<Hex*> findNonFloating(std::vector<Hex*> top);
 	glm::vec2 pixelToHexCoord(glm::vec2& position);
+
+	float m_margin;
 
 };
 

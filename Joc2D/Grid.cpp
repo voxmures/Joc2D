@@ -25,6 +25,7 @@ Grid::Grid() {
 }
 
 Grid::Grid(std::vector<Bubble*> &map) {
+	m_margin = 42.f;
 	unsigned int k = 0;
 	for (int i = 0; i < N; i++) {
 		std::vector<Hex *> row;
@@ -73,7 +74,7 @@ glm::vec2 Grid::getHexCentre(int r, int q) {
 	if (r % 2 != 0)
 		marginLeft += 32.f / 2;
 	result.x = marginLeft + (q + r / 2) * 32.f;
-	result.y = 42.f + r * 32.f;
+	result.y = m_margin + r * 32.f;
 
 	return result;
 }
@@ -131,7 +132,7 @@ glm::vec2 Grid::pixelToHexCoord(glm::vec2& position) {
 		y = position.y;
 
 	x -= 208.f - radius;
-	y -= 42.f - radius;
+	y -= m_margin - radius;
 	int row = (int)(y / (w /** 3 / 4*/));
 	int col;
 

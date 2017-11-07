@@ -84,37 +84,43 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	bubblelauncher->update(deltaTime);
-	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
-		m_bubbles[i]->update(deltaTime);
-	}
 
-	if ( m_bubbles.size() == 0 ){
-		if ( currentLvl < levels.size() ){
+	if (m_bubbles.size() == 0) {
+		if (currentLvl < levels.size()) {
 			currentLvl++;
 			changeLevel(currentLvl);
 		}
 	}
 
-	int newOffset = currentTime / 2000;
-	if ( newOffset != rowOffset ){
+	int newOffset = currentTime / 5000;
+	if (newOffset != rowOffset) {
+		rowOffset = newOffset;
+		grid->setMarginTop(rowOffset * 42.f);
 		for (unsigned int i = 0; i < m_bubbles.size(); i++) {
-			glm::vec2 pos = m_bubbles[i]->getPosition();
-			pos.y += 42.0f;
-			m_bubbles[i]->setPosition(pos);
+			if (m_bubbles[i]->isHooked()) {
+				glm::vec2 pos = m_bubbles[i]->getPosition();
+				pos.y += 42.0f;
+				m_bubbles[i]->setPosition(pos);
+			}
 		}
-		for ( unsigned int i = 0; i < 8; i++){
-			int row = 10-newOffset;
-			int col = i - (row/2);
-			if ( grid->isValidHex(glm::vec2(row,col))){
-				if ( grid->isOccupiedHex(row, col) ){
+
+		// Check if the game's over
+		for (unsigned int i = 0; i < 8; i++) {
+			int row = 10 - newOffset;
+			int col = i - (row / 2);
+			if (grid->isValidHex(glm::vec2(row, col))) {
+				if (grid->isOccupiedHex(row, col)) {
 					//TODO: Hacer game over
 					exit(0);
 				}
 			}
 		}
 	}
-	rowOffset = newOffset;
+
+	bubblelauncher->update(deltaTime);
+	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
+		m_bubbles[i]->update(deltaTime);
+	}
 }
 
 void Scene::render()
