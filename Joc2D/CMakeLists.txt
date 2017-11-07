@@ -30,6 +30,6 @@ link_directories(${GLEW_LIBRARY_DIRS})
 link_directories(${SOIL_LIBRARY_DIRS})
 link_directories(${FREETYPE_LIBRARY_DIRS})
 
-add_executable(${appName} Text.h Text.cpp TexturedQuad.h TexturedQuad.cpp Player.h Player.cpp Bubble.h Bubble.cpp Hex.h BubbleLauncher.h BubbleLauncher.cpp AnimKeyframes.h Sprite.h Sprite.cpp Grid.h Grid.cpp Hex.h PowerSprite.h PowerSprite.cpp TileMap.h TileMap.cpp Texture.h Texture.cpp Scene.h Scene.cpp Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
+add_executable(${appName} Text.h Text.cpp TexturedQuad.h TexturedQuad.cpp Player.h Player.cpp Bubble.h Bubble.cpp Hex.h Hex.cpp BubbleLauncher.h BubbleLauncher.cpp AnimKeyframes.h Sprite.h Sprite.cpp Grid.h Grid.cpp PowerSprite.h PowerSprite.cpp TileMap.h TileMap.cpp Texture.h Texture.cpp Scene.h Scene.cpp Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${GLEW_LIBRARIES} ${SOIL_LIBRARIES} ${FREETYPE_LIBRARIES}) # ${GLM_LIBRARIES}

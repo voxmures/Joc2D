@@ -195,6 +195,10 @@ void Scene::addPoints(int points){
 	scoreChanged += 50;
 }
 
+int Scene::getOffset(){
+	return rowOffset;
+}
+
 void Scene::s_bubbleLaunched(Bubble* bubble) {
 	Game::instance().getScene().addBubble(bubble);
 }

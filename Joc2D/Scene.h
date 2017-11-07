@@ -30,6 +30,8 @@ public:
 
 	void addPoints(int points);
 
+	int getOffset();
+
 	Grid* getGrid() {
 		return grid;
 	}
