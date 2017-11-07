@@ -50,9 +50,10 @@ glm::vec2 Grid::getHexCoord(glm::vec2& position) {
 	return pixelToHexCoord(position);
 }
 
-bool Grid::isValidHex(glm::vec2& coord) {
+bool Grid::isValidHex(glm::vec2 coord) {
 	int r = (int)coord.x,
 		q = (int)coord.y;
+
 	if (r >= 0 && r <= 11 && q >= -5 && q <= 7) {
 		if (q < -(r / 2))
 			return false;

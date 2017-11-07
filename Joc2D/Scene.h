@@ -64,6 +64,8 @@ private:
 	int currentLvl;
 
 	std::vector<string> levels;
+
+	int rowOffset;
 	
 
 };

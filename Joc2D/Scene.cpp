@@ -73,8 +73,12 @@ void Scene::init()
 	currentTime = 0.0f;
 	scoreBoard = new Text();
 	scoreBoard->init("fonts/DroidSerif.ttf");
+
 	levelBoard = new Text();
 	scoreBoard->init("fonts/DroidSerif.ttf");
+
+
+	rowOffset = 0;
 }
 
 void Scene::update(int deltaTime)
@@ -91,6 +95,26 @@ void Scene::update(int deltaTime)
 			changeLevel(currentLvl);
 		}
 	}
+
+	int newOffset = currentTime / 2000;
+	if ( newOffset != rowOffset ){
+		for (unsigned int i = 0; i < m_bubbles.size(); i++) {
+			glm::vec2 pos = m_bubbles[i]->getPosition();
+			pos.y += 42.0f;
+			m_bubbles[i]->setPosition(pos);
+		}
+		for ( unsigned int i = 0; i < 8; i++){
+			int row = 10-newOffset;
+			int col = i - (row/2);
+			if ( grid->isValidHex(glm::vec2(row,col))){
+				if ( grid->isOccupiedHex(row, col) ){
+					//TODO: Hacer game over
+					exit(0);
+				}
+			}
+		}
+	}
+	rowOffset = newOffset;
 }
 
 void Scene::render()
