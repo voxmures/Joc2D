@@ -31,7 +31,9 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TexturedQuad.h" />
     <ClInclude Include="TileMap.h" />
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +48,9 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TexturedQuad.cpp" />
     <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -105,11 +109,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>lib\Simple OpenGL Image Library\src;lib\freeglut\include;lib\glew-1.13.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\freetype-2.3.5-1-bin\include\freetype2;lib\freetype-2.3.5-1-bin\include;lib\Simple OpenGL Image Library\src;lib\freeglut\include;lib\glew-1.13.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>lib\Simple OpenGL Image Library\projects\VC9\Debug;lib\freeglut\lib;lib\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib\freetype-2.3.5-1-bin\lib;lib\Simple OpenGL Image Library\projects\VC9\Debug;lib\freeglut\lib;lib\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;SOIL.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

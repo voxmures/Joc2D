@@ -2,6 +2,7 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
+#include <stdio.h>
 #include "Scene.h"
 #include "Game.h"
 #include "Bubble.h"
@@ -87,7 +88,7 @@ void Scene::render()
 		m_bubbles[i]->render();
 	}
 
-	sprintf(scoreBoardBuffer, "Score: %d", score);
+	sprintf_s(scoreBoardBuffer, "Score: %d", score);
 	scoreBoard->render(scoreBoardBuffer, glm::vec2(50,50), 20+scoreChanged/4,
 				glm::vec4(0.f+scoreChanged/10,1-scoreChanged/10,0.f,1.0f)  );
 	if ( scoreChanged > 0 ) scoreChanged--;
