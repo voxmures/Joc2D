@@ -86,7 +86,7 @@ glm::vec2 Grid::getHexCoord(glm::vec2& position) {
 	return pixelToHexCoord(position);
 }
 
-bool Grid::isValidHex(glm::vec2& coord) {
+bool Grid::isValidHex(glm::vec2 coord) {
 	int r = coord.x,
 		q = coord.y;
 	if (r >= 0 && r <= 11 && q >= -5 && q <= 7) {
@@ -94,9 +94,9 @@ bool Grid::isValidHex(glm::vec2& coord) {
 			return false;
 
 		bool rowIsOdd = (r % 2 != 0);
-		if (!rowIsOdd && q < -(r / 2) + 7)
+		if (!rowIsOdd && q < -(r / 2) + 8)
 			return true;
-		else if (rowIsOdd && q < -(r / 2) + 8)
+		else if (rowIsOdd && q < -(r / 2) + 7)
 			return true;
 	}
 	return false;

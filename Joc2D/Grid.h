@@ -22,7 +22,7 @@ public:
 
 	bool isOccupiedHex(int r, int q);
 	glm::vec2 getHexCoord(glm::vec2& position);
-	bool isValidHex(glm::vec2& coord);
+	bool isValidHex(glm::vec2 coord);
 	glm::vec2 getHexCentre(int r, int q);
 	void assignBubble(int r, int q, Bubble* b);
 

@@ -57,6 +57,8 @@ private:
 	Text *scoreBoard;
 	// variable to control score text being bigger when score changes.
 	int scoreChanged;
+
+	int rowOffset;
 	
 
 };
