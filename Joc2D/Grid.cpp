@@ -42,42 +42,6 @@ Grid::Grid(std::vector<Bubble*> &map) {
 	}
 }
 
-//void Grid::checkLaunch(Bubble* bubble, float angle)
-//{
-//	Hex* prev = NULL;
-//	glm::vec2 position = *bubble->getPosition();
-//
-//	bool factor = true;
-//	bool found = false;
-//	while (!found) {
-//		position.x += cos(angle*M_PI / 180) * 32 * (factor ? -1 : 1);
-//		if (position.x < 202) {
-//			position.x += (202 - position.x);
-//			factor = !factor;
-//		}
-//		else if (position.x > 439) {
-//			position.x -= (position.x - 439);
-//			factor = !factor;
-//		}
-//
-//		position.y += sin(angle*M_PI / 180) * -24;
-//		if (position.y <= 42.f) {
-//			found = true;
-//			continue;
-//		}
-//
-//		Hex* current = coordToHex(position);
-//		if (current != NULL && current->getValue() != -1) {
-//			found = true;
-//			continue;
-//		}
-//
-//		if (current != NULL)
-//			prev = current;
-//	}
-//	prev->hookBubble(bubble);
-//}
-
 bool Grid::isOccupiedHex(int r, int q) {
 	return hexagons[r][(N / 2 - 1) + q]->getValue() != -1;
 }
@@ -87,16 +51,16 @@ glm::vec2 Grid::getHexCoord(glm::vec2& position) {
 }
 
 bool Grid::isValidHex(glm::vec2& coord) {
-	int r = coord.x,
-		q = coord.y;
+	int r = (int)coord.x,
+		q = (int)coord.y;
 	if (r >= 0 && r <= 11 && q >= -5 && q <= 7) {
 		if (q < -(r / 2))
 			return false;
 
 		bool rowIsOdd = (r % 2 != 0);
-		if (!rowIsOdd && q < -(r / 2) + 7)
+		if (!rowIsOdd && q < -(r / 2) + 8)
 			return true;
-		else if (rowIsOdd && q < -(r / 2) + 8)
+		else if (rowIsOdd && q < -(r / 2) + 7)
 			return true;
 	}
 	return false;
@@ -118,17 +82,44 @@ void Grid::assignBubble(int r, int q, Bubble* b) {
 	Hex* target = hexagons[r][(N / 2 - 1) + q];
 	vector<Hex*> conn = BFS(target);
 	if (conn.size() >= 3) {
+
+		int score = 0;
+		// Remove bubbles
 		for (unsigned int i = 0; i < conn.size(); i++) {
-			Hex* current = conn[i];
-			Bubble* b = current->removeBubble();
+			score += 10;
+			Bubble* b = conn[i]->removeBubble();
 			Game::instance().getScene().removeBubble(b);
 		}
-		// TODO: Comprobar si hay algo colgando
-		/* Por lo que veo en gameplay, solo se suman puntos
-		// a las bolas conectadas, pero no a las que caen 
-		// por colgar, así que con esto debería valer para el score.
-		*/
-		Game::instance().getScene().addPoints( conn.size() * 10 );
+
+		// Find non floating bubbles
+		std::vector<Hex*> top;
+		for (unsigned int i = 0; i < 8; i++) {
+			Hex* h = hexagons[0][(N / 2 - 1) + i];
+			if (h != NULL && h->getValue() != -1) {
+				top.push_back(h);
+			}
+		}
+		std::vector<Hex*> nonFloatingBubbles = findNonFloating(top);
+
+		int floatingCount = 0;
+		// Remove floating
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j <= N; j++) {
+				Hex* h = hexagons[i][j];
+				if (h != NULL) {
+					if (std::find(nonFloatingBubbles.begin(), nonFloatingBubbles.end(), h) == nonFloatingBubbles.end() &&
+						h->getValue() != -1) {
+						floatingCount++;
+						Bubble* b = h->removeBubble();
+						Game::instance().getScene().removeBubble(b);
+					}
+				}
+			}
+		}
+
+		score += std::pow(2, floatingCount) * 10;
+
+		Game::instance().getScene().addPoints(score);
 	}
 }
 
@@ -184,6 +175,33 @@ Hex* Grid::getNeighbour(Hex* hex, int direction) {
 
 	return hexagons[i][j];
 }
+std::vector<Hex*> Grid::findNonFloating(std::vector<Hex*> top) {
+
+	std::vector<Hex*> visited;
+	std::queue<Hex*> frontier;
+	for (unsigned int i = 0; i < top.size(); i++) {
+		if (std::find(visited.begin(), visited.end(), top[i]) == visited.end()) {
+			frontier.push(top[i]);
+			visited.push_back(top[i]);
+
+			while (!frontier.empty()) {
+				Hex* current = frontier.front(); frontier.pop();
+
+				for (unsigned int j = 0; j < 6; j++) {
+					Hex* n = getNeighbour(current, j);
+					bool v = std::find(visited.begin(), visited.end(), n) != visited.end();
+
+					if (n != NULL && !v && n->getValue() != -1) {
+						frontier.push(n);
+						visited.push_back(n);
+					}
+				}
+			}
+		}
+	}
+
+	return visited;
+}
 
 std::vector<Hex*> Grid::BFS(Hex* start) {
 	std::queue<Hex*> frontier;
@@ -195,10 +213,6 @@ std::vector<Hex*> Grid::BFS(Hex* start) {
 		Hex* current = frontier.front(); frontier.pop();
 		int value = current->getValue();
 
-		//std::cout << "CURRENT" << std::endl;
-		//std::cout << "r: " << current->getCoord().first << ", q: " << current->getCoord().second << ", v: " << value << std::endl;
-
-		//std::cout << "NEIGHBOURS" << std::endl;
 		for (int i = 0; i < 6; i++) {
 			Hex* neighbour = getNeighbour(current, i);
 			bool v = std::find(visited.begin(), visited.end(), neighbour) != visited.end();
@@ -206,15 +220,12 @@ std::vector<Hex*> Grid::BFS(Hex* start) {
 			if (neighbour != NULL && !v && neighbour->getValue() == value) {
 				frontier.push(neighbour);
 				visited.push_back(neighbour);
-				//std::cout << "r: " << neighbour->getCoord().first << ", q: " << neighbour->getCoord().second << ", v: " << neighbour->getValue() << std::endl;
 			}
 		}
 	}
 
 	return visited;
 }
-
-
 
 bool Grid::loadLevel(const string &levelFile, vector<Bubble*> &map, vector<Bubble*> &bubbles, ShaderProgram &shaderProgram){
 	ifstream fin;

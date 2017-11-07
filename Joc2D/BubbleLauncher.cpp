@@ -50,7 +50,7 @@ void BubbleLauncher::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderPro
 	machine_sprite->setPosition(glm::vec2(208,300));
 
 	primary_bubble = new Bubble;
-	primary_bubble->init(Bubble::Color::Red, shaderProgram, false);
+	primary_bubble->init(Bubble::Color::Blue, shaderProgram, false);
 	//primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y-9));	
 	primary_bubble->setPosition(glm::vec2(ARROW_X,ARROW_Y));
 
