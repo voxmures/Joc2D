@@ -43,6 +43,8 @@ void Scene::changeLevel(int lvl){
 	Grid::loadLevel(levels[currentLvl], map, m_bubbles, texProgram);
 	//std::vector<Bubble*> bubbles = loadBubbleMap();
 	grid = new Grid(map);
+	rowOffset = 0;
+	currentTime = 0.0f;
 }
 
 void Scene::init()
@@ -70,15 +72,11 @@ void Scene::init()
 	grid->testGrid();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-	currentTime = 0.0f;
 	scoreBoard = new Text();
 	scoreBoard->init("fonts/DroidSerif.ttf");
 
 	levelBoard = new Text();
 	scoreBoard->init("fonts/DroidSerif.ttf");
-
-
-	rowOffset = 0;
 }
 
 void Scene::update(int deltaTime)
@@ -93,20 +91,20 @@ void Scene::update(int deltaTime)
 	}
 
 	int newOffset = currentTime / 5000;
-	if (newOffset != rowOffset) {
+	if (rowOffset != newOffset) {
 		rowOffset = newOffset;
-		grid->setMarginTop(rowOffset * 42.f);
+		grid->setMarginTop(42.f + rowOffset * 32.f);
 		for (unsigned int i = 0; i < m_bubbles.size(); i++) {
 			if (m_bubbles[i]->isHooked()) {
 				glm::vec2 pos = m_bubbles[i]->getPosition();
-				pos.y += 42.0f;
+				pos.y += 32.0f;
 				m_bubbles[i]->setPosition(pos);
 			}
 		}
 
 		// Check if the game's over
 		for (unsigned int i = 0; i < 8; i++) {
-			int row = 10 - newOffset;
+			int row = 11 - rowOffset;
 			int col = i - (row / 2);
 			if (grid->isValidHex(glm::vec2(row, col))) {
 				if (grid->isOccupiedHex(row, col)) {
