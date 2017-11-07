@@ -59,7 +59,7 @@ void Scene::init()
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
 
-	levels.push_back("levels/level00.txt");
+	//levels.push_back("levels/level00.txt");
 	levels.push_back("levels/level01.txt");
 	levels.push_back("levels/level02.txt");
 	levels.push_back("levels/level03.txt");
