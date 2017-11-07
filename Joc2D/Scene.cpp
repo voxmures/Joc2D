@@ -37,6 +37,13 @@ Scene::~Scene()
 	//	delete player;
 }
 
+void Scene::changeLevel(int lvl){
+	std::vector<Bubble *> map;
+
+	Grid::loadLevel(levels[currentLvl], map, m_bubbles, texProgram);
+	//std::vector<Bubble*> bubbles = loadBubbleMap();
+	grid = new Grid(map);
+}
 
 void Scene::init()
 {
@@ -50,16 +57,23 @@ void Scene::init()
 	background = Sprite::createSprite(glm::ivec2(640,480) , glm::vec2(1), &bg_texture, &texProgram);
 	background->setPosition(glm::ivec2(320,240));
 
-	std::vector<Bubble*> map;
-	
-	Grid::loadLevel("levels/level01.txt", map, m_bubbles, texProgram);
-	//std::vector<Bubble*> bubbles = loadBubbleMap();
-	grid = new Grid(map);
+	levels.push_back("levels/level00.txt");
+	levels.push_back("levels/level01.txt");
+	levels.push_back("levels/level02.txt");
+	levels.push_back("levels/level03.txt");
+	levels.push_back("levels/level04.txt");
+	levels.push_back("levels/level05.txt");
+
+	currentLvl = 0;
+
+	changeLevel(currentLvl);
 	grid->testGrid();
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 	scoreBoard = new Text();
+	scoreBoard->init("fonts/DroidSerif.ttf");
+	levelBoard = new Text();
 	scoreBoard->init("fonts/DroidSerif.ttf");
 }
 
@@ -69,6 +83,13 @@ void Scene::update(int deltaTime)
 	bubblelauncher->update(deltaTime);
 	for (unsigned int i = 0; i < m_bubbles.size(); i++) {
 		m_bubbles[i]->update(deltaTime);
+	}
+
+	if ( m_bubbles.size() == 0 ){
+		if ( currentLvl < levels.size() ){
+			currentLvl++;
+			changeLevel(currentLvl);
+		}
 	}
 }
 
@@ -92,6 +113,8 @@ void Scene::render()
 	scoreBoard->render(scoreBoardBuffer, glm::vec2(50,50), 20+scoreChanged/4,
 				glm::vec4(0.f+scoreChanged/10,1-scoreChanged/10,0.f,1.0f)  );
 	if ( scoreChanged > 0 ) scoreChanged--;
+
+	scoreBoard->render(" Lvl: " + std::to_string(currentLvl + 1), glm::vec2(530, 50), 20, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 }
 
 std::vector<Bubble*> Scene::loadBubbleMap() 
