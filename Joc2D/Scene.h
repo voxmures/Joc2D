@@ -36,6 +36,7 @@ public:
 
 private:
 	void initShaders();
+	void changeLevel(int lvl);
 	std::vector<Bubble*> loadBubbleMap();
 
 	static void s_bubbleLaunched(Bubble* bubble);
@@ -57,6 +58,12 @@ private:
 	Text *scoreBoard;
 	// variable to control score text being bigger when score changes.
 	int scoreChanged;
+
+	Text *levelBoard;
+
+	int currentLvl;
+
+	std::vector<string> levels;
 	
 
 };
