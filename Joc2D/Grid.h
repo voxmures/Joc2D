@@ -18,8 +18,6 @@ public:
 	Grid();
 	Grid(std::vector<Bubble*> &map);
 
-	void checkLaunch(Bubble* bubble, float angle);
-
 	bool isOccupiedHex(int r, int q);
 	glm::vec2& getHexCoord(glm::vec2& position);
 	bool isValidHex(glm::vec2& coord);
@@ -34,7 +32,9 @@ private:
 	std::vector< std::vector<Hex *> > hexagons;
 
 	Hex* getNeighbour(Hex* hex, int direction);
+	//bool hasTop(Hex* current, std::unordered_map<Hex*, bool>& visited);
 	std::vector<Hex*> BFS(Hex* start);
+	std::vector<Hex*> findNonFloating(std::vector<Hex*> top);
 	glm::vec2& pixelToHexCoord(glm::vec2& position);
 };
 
