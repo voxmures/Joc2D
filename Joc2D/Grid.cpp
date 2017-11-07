@@ -124,6 +124,11 @@ void Grid::assignBubble(int r, int q, Bubble* b) {
 			Game::instance().getScene().removeBubble(b);
 		}
 		// TODO: Comprobar si hay algo colgando
+		/* Por lo que veo en gameplay, solo se suman puntos
+		// a las bolas conectadas, pero no a las que caen 
+		// por colgar, así que con esto debería valer para el score.
+		*/
+		Game::instance().getScene().addPoints( conn.size() * 10 );
 	}
 }
 

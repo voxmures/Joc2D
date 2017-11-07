@@ -28,6 +28,8 @@ public:
 	void addBubble(Bubble* b);
 	void removeBubble(Bubble* b);
 
+	void addPoints(int points);
+
 	Grid* getGrid() {
 		return grid;
 	}
@@ -53,6 +55,8 @@ private:
 	int score;
 	char scoreBoardBuffer[100];
 	Text *scoreBoard;
+	// variable to control score text being bigger when score changes.
+	int scoreChanged;
 	
 
 };

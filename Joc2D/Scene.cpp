@@ -88,7 +88,9 @@ void Scene::render()
 	}
 
 	sprintf(scoreBoardBuffer, "Score: %d", score);
-	scoreBoard->render(scoreBoardBuffer, glm::vec2(50,50), 20, glm::vec4(0,255,0,255) );
+	scoreBoard->render(scoreBoardBuffer, glm::vec2(50,50), 20+scoreChanged/4,
+				glm::vec4(0.f+scoreChanged/10,1-scoreChanged/10,0.f,1.0f)  );
+	if ( scoreChanged > 0 ) scoreChanged--;
 }
 
 std::vector<Bubble*> Scene::loadBubbleMap() 
@@ -164,6 +166,11 @@ void Scene::removeBubble(Bubble* b) {
 	it = std::find(m_bubbles.begin(), m_bubbles.end(), b);
 	m_bubbles.erase(it);
 	delete b;
+}
+
+void Scene::addPoints(int points){
+	this->score += points;
+	scoreChanged += 50;
 }
 
 void Scene::s_bubbleLaunched(Bubble* bubble) {
