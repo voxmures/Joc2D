@@ -90,7 +90,7 @@ void Scene::update(int deltaTime)
 		}
 	}
 
-	int newOffset = currentTime / 25000;
+	int newOffset = currentTime / 30000;
 	if (rowOffset != newOffset) {
 		rowOffset = newOffset;
 		grid->setMarginTop(42.f + rowOffset * 32.f);
