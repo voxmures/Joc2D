@@ -145,6 +145,8 @@ glm::vec2 Grid::pixelToHexCoord(glm::vec2& position) {
 
 	col -= row / 2;
 	
+	if (y < 0) row = -1;
+
 	return glm::vec2(row, col);
 }
 

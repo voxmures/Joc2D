@@ -64,7 +64,14 @@ void Bubble::update(int deltaTime){
 			}
 
 			glm::vec2 next = g->getHexCoord(nextP);
-			if (g->isValidHex(next) && g->isOccupiedHex(next.x, next.y)) {
+			if (next.x == -1 && next.y > 0 && next.y < 8) {		// LAST ROW
+				position = c;
+				sprite->setPosition(position);
+				direction.x = direction.y = 0;
+				m_hooked = true;
+				g->assignBubble(hexCoord.x, hexCoord.y, this);
+			}
+			else if (g->isValidHex(next) && g->isOccupiedHex(next.x, next.y)) {
 				position = c;
 				sprite->setPosition(position);
 				direction.x = direction.y = 0;

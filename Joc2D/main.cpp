@@ -90,9 +90,9 @@ int main(int argc, char **argv)
 {
 	// Open a console for standard output
 	//AllocConsole();
-	freopen("CONIN$", "r", stdin);
-	freopen("CONOUT$", "w", stdout);
-	freopen("CONOUT$", "w", stderr);
+	//freopen("CONIN$", "r", stdin);
+	//freopen("CONOUT$", "w", stdout);
+	//freopen("CONOUT$", "w", stderr);
 
 	// GLUT initialization
 	glutInit(&argc, argv);
